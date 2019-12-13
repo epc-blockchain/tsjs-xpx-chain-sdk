@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 import {UInt64} from '../UInt64';
-import { NetworkMosaic, KnownMosaicProperties, XpxMosaicProperties } from './NetworkMosaic';
+import { NetworkMosaic, KnownMosaicProperties, EpccMosaicProperties } from './NetworkMosaic';
 
 /**
  * NetworkHarvestMosaic mosaic
  *
  * This represents the per-network harvest mosaic. This mosaicId is aliased
- * with namespace name `prx.xpx` from XpxMosaicProperties definition by default.
+ * with namespace name `besc.epcc` from EpccMosaicProperties definition by default.
  *
  * @since 0.10.2
  */
@@ -40,7 +40,7 @@ export class NetworkHarvestMosaic extends NetworkMosaic {
      * @param amount
      * @returns {NetworkHarvestMosaic}
      */
-    public static createRelative(amount: UInt64 | number, networkMosaicProperties = XpxMosaicProperties) {
+    public static createRelative(amount: UInt64 | number, networkMosaicProperties = EpccMosaicProperties) {
         return new NetworkHarvestMosaic(NetworkMosaic.createRelativeAmount(amount, networkMosaicProperties.MOSAIC_PROPERTIES.divisibility), networkMosaicProperties);
     }
 
@@ -51,7 +51,7 @@ export class NetworkHarvestMosaic extends NetworkMosaic {
      * @param amount
      * @returns {NetworkHarvestMosaic}
      */
-    public static createAbsolute(amount: UInt64 | number, networkMosaicProperties = XpxMosaicProperties) {
+    public static createAbsolute(amount: UInt64 | number, networkMosaicProperties = EpccMosaicProperties) {
         return new NetworkHarvestMosaic(NetworkMosaic.createAbsoluteAmount(amount), networkMosaicProperties);
     }
 }

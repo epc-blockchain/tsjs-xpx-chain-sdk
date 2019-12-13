@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 import {UInt64} from '../UInt64';
-import { NetworkMosaic, XpxMosaicProperties, KnownMosaicProperties } from './NetworkMosaic';
+import { NetworkMosaic, KnownMosaicProperties, EpccMosaicProperties } from './NetworkMosaic';
 
 /**
  * NetworkCurrencyMosaic mosaic
  *
  * This represents the per-network currency mosaic. This mosaicId is aliased
- * with namespace name `prx.xpx` from XpxMosaicProperties definition by default.
+ * with namespace name `besc.epcc` from EpccMosaicProperties definition by default.
  *
  * @since 0.10.2
  */
@@ -40,7 +40,7 @@ export class NetworkCurrencyMosaic extends NetworkMosaic {
      * @param amount
      * @returns {NetworkCurrencyMosaic}
      */
-    public static createRelative(amount: UInt64 | number, networkMosaicProperties = XpxMosaicProperties) {
+    public static createRelative(amount: UInt64 | number, networkMosaicProperties = EpccMosaicProperties) {
         return new NetworkCurrencyMosaic(NetworkMosaic.createRelativeAmount(amount, networkMosaicProperties.MOSAIC_PROPERTIES.divisibility), networkMosaicProperties);
     }
 
@@ -51,7 +51,7 @@ export class NetworkCurrencyMosaic extends NetworkMosaic {
      * @param amount
      * @returns {NetworkCurrencyMosaic}
      */
-    public static createAbsolute(amount: UInt64 | number, networkMosaicProperties = XpxMosaicProperties) {
+    public static createAbsolute(amount: UInt64 | number, networkMosaicProperties = EpccMosaicProperties) {
         return new NetworkCurrencyMosaic(NetworkMosaic.createAbsoluteAmount(amount), networkMosaicProperties);
     }
 }

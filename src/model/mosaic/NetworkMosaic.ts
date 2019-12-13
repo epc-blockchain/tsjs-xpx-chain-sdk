@@ -40,6 +40,16 @@ export const XpxMosaicProperties = new KnownMosaicProperties(
     })
 );
 
+export const EpccMosaicProperties = new KnownMosaicProperties(
+    new NamespaceId('besc.epcc'),
+    UInt64.fromUint(9000000000), // initial supply
+    MosaicProperties.create({
+        supplyMutable: false,
+        transferable: true,
+        divisibility: 6
+    })
+);
+
 /**
  * NetworkMosaic mosaic
  *
