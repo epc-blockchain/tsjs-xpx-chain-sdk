@@ -4,7 +4,7 @@ import { NetworkMosaic, KnownMosaicProperties } from './NetworkMosaic';
  * NetworkCurrencyMosaic mosaic
  *
  * This represents the per-network currency mosaic. This mosaicId is aliased
- * with namespace name `prx.xpx` from XpxMosaicProperties definition by default.
+ * with namespace name `besc.epcc` from EpccMosaicProperties definition by default.
  *
  * @since 0.10.2
  */

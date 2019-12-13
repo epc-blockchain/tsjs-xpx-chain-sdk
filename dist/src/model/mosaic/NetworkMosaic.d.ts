@@ -10,6 +10,7 @@ export declare class KnownMosaicProperties {
     constructor(ID: NamespaceId | MosaicId, INITIAL_SUPPLY: UInt64, MOSAIC_PROPERTIES: MosaicProperties);
 }
 export declare const XpxMosaicProperties: KnownMosaicProperties;
+export declare const EpccMosaicProperties: KnownMosaicProperties;
 /**
  * NetworkMosaic mosaic
  *

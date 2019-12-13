@@ -33,6 +33,12 @@ MosaicProperties_1.MosaicProperties.create({
     transferable: true,
     divisibility: 6
 }));
+exports.EpccMosaicProperties = new KnownMosaicProperties(new NamespaceId_1.NamespaceId('besc.epcc'), UInt64_1.UInt64.fromUint(9000000000), // initial supply
+MosaicProperties_1.MosaicProperties.create({
+    supplyMutable: false,
+    transferable: true,
+    divisibility: 6
+}));
 /**
  * NetworkMosaic mosaic
  *

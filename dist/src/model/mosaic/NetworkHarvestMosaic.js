@@ -5,7 +5,7 @@ const NetworkMosaic_1 = require("./NetworkMosaic");
  * NetworkHarvestMosaic mosaic
  *
  * This represents the per-network harvest mosaic. This mosaicId is aliased
- * with namespace name `prx.xpx` from XpxMosaicProperties definition by default.
+ * with namespace name `besc.epcc` from EpccMosaicProperties definition by default.
  *
  * @since 0.10.2
  */
@@ -24,7 +24,7 @@ class NetworkHarvestMosaic extends NetworkMosaic_1.NetworkMosaic {
      * @param amount
      * @returns {NetworkHarvestMosaic}
      */
-    static createRelative(amount, networkMosaicProperties = NetworkMosaic_1.XpxMosaicProperties) {
+    static createRelative(amount, networkMosaicProperties = NetworkMosaic_1.EpccMosaicProperties) {
         return new NetworkHarvestMosaic(NetworkMosaic_1.NetworkMosaic.createRelativeAmount(amount, networkMosaicProperties.MOSAIC_PROPERTIES.divisibility), networkMosaicProperties);
     }
     /**
@@ -34,7 +34,7 @@ class NetworkHarvestMosaic extends NetworkMosaic_1.NetworkMosaic {
      * @param amount
      * @returns {NetworkHarvestMosaic}
      */
-    static createAbsolute(amount, networkMosaicProperties = NetworkMosaic_1.XpxMosaicProperties) {
+    static createAbsolute(amount, networkMosaicProperties = NetworkMosaic_1.EpccMosaicProperties) {
         return new NetworkHarvestMosaic(NetworkMosaic_1.NetworkMosaic.createAbsoluteAmount(amount), networkMosaicProperties);
     }
 }
