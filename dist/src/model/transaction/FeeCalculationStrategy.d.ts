@@ -1,6 +1,7 @@
 import { UInt64 } from "../UInt64";
 export declare enum FeeCalculationStrategy {
     ZeroFeeCalculationStrategy = 0,
+    MinimumFeeCalculationStrategy = 1,
     LowFeeCalculationStrategy = 25,
     MiddleFeeCalculationStrategy = 250,
     HighFeeCalculationStrategy = 2500

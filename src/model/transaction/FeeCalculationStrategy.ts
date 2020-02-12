@@ -6,6 +6,7 @@ import { UInt64 } from "../UInt64";
 
 export enum FeeCalculationStrategy {
     ZeroFeeCalculationStrategy = 0,
+    MinimumFeeCalculationStrategy = 1,
     LowFeeCalculationStrategy = 25,
     MiddleFeeCalculationStrategy = 250,
     HighFeeCalculationStrategy = 2500
@@ -13,7 +14,7 @@ export enum FeeCalculationStrategy {
 
 export const DefaultMaxFee = 5000000;
 
-export const DefaultFeeCalculationStrategy: FeeCalculationStrategy = FeeCalculationStrategy.MiddleFeeCalculationStrategy;
+export const DefaultFeeCalculationStrategy: FeeCalculationStrategy = FeeCalculationStrategy.MinimumFeeCalculationStrategy;
 
 export const calculateFee = (transactionByteSize: number, feeCalculationStratgy: FeeCalculationStrategy = DefaultFeeCalculationStrategy) => {
     return UInt64.fromUint(Math.min(DefaultMaxFee, transactionByteSize * feeCalculationStratgy));
