@@ -127,4 +127,16 @@ TransactionType.CHAIN_UPGRADE = 0x4158;
  * Configure chain transaction type
  */
 TransactionType.CHAIN_CONFIGURE = 0x4159;
+/**
+ * Add exchange transaction type
+ */
+TransactionType.ADD_EXCHANGE_OFFER = 0x415D;
+/**
+ * Exchange transaction type
+ */
+TransactionType.EXCHANGE_OFFER = 0x425D;
+/**
+ * Remove exchange transaction type
+ */
+TransactionType.REMOVE_EXCHANGE_OFFER = 0x435D;
 //# sourceMappingURL=TransactionType.js.map

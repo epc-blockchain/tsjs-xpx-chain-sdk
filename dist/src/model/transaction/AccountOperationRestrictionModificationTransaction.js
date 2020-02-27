@@ -118,7 +118,7 @@ class AccountOperationRestrictionModificationTransactionBuilder extends Transact
         return this;
     }
     build() {
-        return new AccountOperationRestrictionModificationTransaction(this._networkType, TransactionVersion_1.TransactionVersion.MODIFY_ACCOUNT_RESTRICTION_ADDRESS, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(AccountOperationRestrictionModificationTransaction.calculateSize(this._modifications.length), this._feeCalculationStrategy), this._restrictionType, this._modifications, this._signature, this._signer, this._transactionInfo);
+        return new AccountOperationRestrictionModificationTransaction(this._networkType, this._version || TransactionVersion_1.TransactionVersion.MODIFY_ACCOUNT_RESTRICTION_ENTITY_TYPE, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(AccountOperationRestrictionModificationTransaction.calculateSize(this._modifications.length), this._feeCalculationStrategy), this._restrictionType, this._modifications, this._signature, this._signer, this._transactionInfo);
     }
 }
 exports.AccountOperationRestrictionModificationTransactionBuilder = AccountOperationRestrictionModificationTransactionBuilder;

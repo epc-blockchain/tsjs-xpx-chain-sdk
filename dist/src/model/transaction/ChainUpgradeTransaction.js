@@ -87,7 +87,7 @@ class ChainUpgradeTransactionBuilder extends Transaction_1.TransactionBuilder {
         return this;
     }
     build() {
-        return new ChainUpgradeTransaction(this._networkType, TransactionVersion_1.TransactionVersion.CHAIN_UPGRADE, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(ChainUpgradeTransaction.calculateSize(), this._feeCalculationStrategy), this._upgradePeriod, this._newBlockchainVersion, this._signature, this._signer, this._transactionInfo);
+        return new ChainUpgradeTransaction(this._networkType, this._version || TransactionVersion_1.TransactionVersion.CHAIN_UPGRADE, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(ChainUpgradeTransaction.calculateSize(), this._feeCalculationStrategy), this._upgradePeriod, this._newBlockchainVersion, this._signature, this._signer, this._transactionInfo);
     }
 }
 exports.ChainUpgradeTransactionBuilder = ChainUpgradeTransactionBuilder;

@@ -146,7 +146,7 @@ class MosaicDefinitionTransactionBuilder extends Transaction_1.TransactionBuilde
         return this;
     }
     build() {
-        return new MosaicDefinitionTransaction(this._networkType, TransactionVersion_1.TransactionVersion.MOSAIC_DEFINITION, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(MosaicDefinitionTransaction.calculateSize(this._mosaicProperties.duration !== undefined), this._feeCalculationStrategy), this._mosaicNonce, this._mosaicId, this._mosaicProperties, this._signature, this._signer, this._transactionInfo);
+        return new MosaicDefinitionTransaction(this._networkType, this._version || TransactionVersion_1.TransactionVersion.MOSAIC_DEFINITION, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(MosaicDefinitionTransaction.calculateSize(this._mosaicProperties.duration !== undefined), this._feeCalculationStrategy), this._mosaicNonce, this._mosaicId, this._mosaicProperties, this._signature, this._signer, this._transactionInfo);
     }
 }
 exports.MosaicDefinitionTransactionBuilder = MosaicDefinitionTransactionBuilder;

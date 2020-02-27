@@ -214,6 +214,10 @@ class TransactionBuilder {
         this._networkType = networkType;
         return this;
     }
+    version(version) {
+        this._version = version;
+        return this;
+    }
     deadline(deadline) {
         this._deadline = deadline;
         return this;

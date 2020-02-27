@@ -133,7 +133,7 @@ class MosaicSupplyChangeTransactionBuilder extends Transaction_1.TransactionBuil
         return this;
     }
     build() {
-        return new MosaicSupplyChangeTransaction(this._networkType, TransactionVersion_1.TransactionVersion.MOSAIC_SUPPLY_CHANGE, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(MosaicSupplyChangeTransaction.calculateSize(), this._feeCalculationStrategy), this._mosaicId, this._direction, this._delta, this._signature, this._signer, this._transactionInfo);
+        return new MosaicSupplyChangeTransaction(this._networkType, this._version || TransactionVersion_1.TransactionVersion.MOSAIC_SUPPLY_CHANGE, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(MosaicSupplyChangeTransaction.calculateSize(), this._feeCalculationStrategy), this._mosaicId, this._direction, this._delta, this._signature, this._signer, this._transactionInfo);
     }
 }
 exports.MosaicSupplyChangeTransactionBuilder = MosaicSupplyChangeTransactionBuilder;

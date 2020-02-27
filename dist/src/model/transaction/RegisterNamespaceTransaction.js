@@ -182,7 +182,7 @@ class RegisterRootNamespaceTransactionBuilder extends Transaction_1.TransactionB
         return this;
     }
     build() {
-        return new RegisterNamespaceTransaction(this._networkType, TransactionVersion_1.TransactionVersion.REGISTER_NAMESPACE, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(RegisterNamespaceTransaction.calculateSize(this._namespaceName), this._feeCalculationStrategy), NamespaceType_1.NamespaceType.RootNamespace, this._namespaceName, new NamespaceId_1.NamespaceId(this._namespaceName), this._duration, undefined, this._signature, this._signer, this._transactionInfo);
+        return new RegisterNamespaceTransaction(this._networkType, this._version || TransactionVersion_1.TransactionVersion.REGISTER_NAMESPACE, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(RegisterNamespaceTransaction.calculateSize(this._namespaceName), this._feeCalculationStrategy), NamespaceType_1.NamespaceType.RootNamespace, this._namespaceName, new NamespaceId_1.NamespaceId(this._namespaceName), this._duration, undefined, this._signature, this._signer, this._transactionInfo);
     }
 }
 exports.RegisterRootNamespaceTransactionBuilder = RegisterRootNamespaceTransactionBuilder;
@@ -202,7 +202,7 @@ class RegisterSubNamespaceTransactionBuilder extends Transaction_1.TransactionBu
         let namespaceId = typeof this._parentNamespace === 'string' ?
             new NamespaceId_1.NamespaceId(infrastructure_1.NamespaceMosaicIdGenerator.subnamespaceNamespaceId(this._parentNamespace, this._namespaceName)) :
             new NamespaceId_1.NamespaceId(infrastructure_1.NamespaceMosaicIdGenerator.namespaceId(this._namespaceName));
-        return new RegisterNamespaceTransaction(this._networkType, TransactionVersion_1.TransactionVersion.REGISTER_NAMESPACE, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(RegisterNamespaceTransaction.calculateSize(this._namespaceName), this._feeCalculationStrategy), NamespaceType_1.NamespaceType.SubNamespace, this._namespaceName, namespaceId, undefined, parentId, this._signature, this._signer, this._transactionInfo);
+        return new RegisterNamespaceTransaction(this._networkType, this._version || TransactionVersion_1.TransactionVersion.REGISTER_NAMESPACE, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(RegisterNamespaceTransaction.calculateSize(this._namespaceName), this._feeCalculationStrategy), NamespaceType_1.NamespaceType.SubNamespace, this._namespaceName, namespaceId, undefined, parentId, this._signature, this._signer, this._transactionInfo);
     }
 }
 exports.RegisterSubNamespaceTransactionBuilder = RegisterSubNamespaceTransactionBuilder;

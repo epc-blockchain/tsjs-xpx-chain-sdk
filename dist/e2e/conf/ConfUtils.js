@@ -30,7 +30,7 @@ class ConfUtils {
         });
     }
     static prepareE2eTestData() {
-        return Promise.all(Array.from(conf_spec_1.AllTestingAccounts.values()).map(ta => ConfUtils.seed(ta).then(accInfo => ConfUtils.checkIfNeedPubKey(ta, accInfo)))).then(accInfos => {
+        return Promise.all(Array.from(conf_spec_1.AllTestingAccounts.values()).filter(ta => ta.conf.seed).map(ta => ConfUtils.seed(ta).then(accInfo => ConfUtils.checkIfNeedPubKey(ta, accInfo)))).then(accInfos => {
             // get all the msig roots; will traverse them with bfs, so all other in the middle nodes will be processed automatically
             const msigAccounts = Array.from(conf_spec_1.AllTestingAccounts.values()).filter(ta => ta.hasCosignatories() && !ta.isCosignatory());
             let idx = 0;
@@ -273,12 +273,21 @@ class ConfUtils {
                             .mosaicId(conf_spec_1.ConfTestingMosaicId)
                             .mosaicProperties(conf_spec_1.ConfTestingMosaicProperties)
                             .build();
-                        const signedRegisterNamespaceTransaction = mosaicDefinitionTransaction.signWith(conf_spec_1.TestingAccount, factory.generationHash);
+                        const signedMosaicDefinitionTransaction = mosaicDefinitionTransaction.signWith(conf_spec_1.TestingAccount, factory.generationHash);
                         this.waitForConfirmation(listener, conf_spec_1.TestingAccount.address, () => {
-                            listener.close();
-                            resolve();
-                        }, signedRegisterNamespaceTransaction.hash);
-                        transactionHttp.announce(signedRegisterNamespaceTransaction);
+                            const mosaicSupplyChangeTransaction = factory.mosaicSupplyChange()
+                                .mosaicId(conf_spec_1.ConfTestingMosaicId)
+                                .direction(model_1.MosaicSupplyType.Increase)
+                                .delta(model_1.UInt64.fromUint(1000000000 * 10 ^ conf_spec_1.ConfTestingMosaicProperties.divisibility))
+                                .build();
+                            const signedMosaicSupplyChangeTransaction = mosaicSupplyChangeTransaction.signWith(conf_spec_1.TestingAccount, factory.generationHash);
+                            this.waitForConfirmation(listener, conf_spec_1.TestingAccount.address, () => {
+                                listener.close();
+                                resolve();
+                            }, signedMosaicSupplyChangeTransaction.hash);
+                            transactionHttp.announce(signedMosaicSupplyChangeTransaction);
+                        }, signedMosaicDefinitionTransaction.hash);
+                        transactionHttp.announce(signedMosaicDefinitionTransaction);
                     });
                 });
             });

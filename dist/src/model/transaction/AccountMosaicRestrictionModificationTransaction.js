@@ -118,7 +118,7 @@ class AccountMosaicRestrictionModificationTransactionBuilder extends Transaction
         return this;
     }
     build() {
-        return new AccountMosaicRestrictionModificationTransaction(this._networkType, TransactionVersion_1.TransactionVersion.MODIFY_ACCOUNT_RESTRICTION_ADDRESS, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(AccountMosaicRestrictionModificationTransaction.calculateSize(this._modifications.length), this._feeCalculationStrategy), this._restrictionType, this._modifications, this._signature, this._signer, this._transactionInfo);
+        return new AccountMosaicRestrictionModificationTransaction(this._networkType, this._version || TransactionVersion_1.TransactionVersion.MODIFY_ACCOUNT_RESTRICTION_MOSAIC, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(AccountMosaicRestrictionModificationTransaction.calculateSize(this._modifications.length), this._feeCalculationStrategy), this._restrictionType, this._modifications, this._signature, this._signer, this._transactionInfo);
     }
 }
 exports.AccountMosaicRestrictionModificationTransactionBuilder = AccountMosaicRestrictionModificationTransactionBuilder;

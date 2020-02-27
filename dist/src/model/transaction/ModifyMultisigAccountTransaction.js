@@ -143,7 +143,7 @@ class ModifyMultisigAccountTransactionBuilder extends Transaction_1.TransactionB
         return this;
     }
     build() {
-        return new ModifyMultisigAccountTransaction(this._networkType, TransactionVersion_1.TransactionVersion.MODIFY_MULTISIG_ACCOUNT, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(ModifyMultisigAccountTransaction.calculateSize(this._modifications.length), this._feeCalculationStrategy), this._minApprovalDelta, this._minRemovalDelta, this._modifications, this._signature, this._signer, this._transactionInfo);
+        return new ModifyMultisigAccountTransaction(this._networkType, this._version || TransactionVersion_1.TransactionVersion.MODIFY_MULTISIG_ACCOUNT, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(ModifyMultisigAccountTransaction.calculateSize(this._modifications.length), this._feeCalculationStrategy), this._minApprovalDelta, this._minRemovalDelta, this._modifications, this._signature, this._signer, this._transactionInfo);
     }
 }
 exports.ModifyMultisigAccountTransactionBuilder = ModifyMultisigAccountTransactionBuilder;

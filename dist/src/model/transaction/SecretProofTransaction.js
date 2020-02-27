@@ -136,7 +136,7 @@ class SecretProofTransactionBuilder extends Transaction_1.TransactionBuilder {
         return this;
     }
     build() {
-        return new SecretProofTransaction(this._networkType, TransactionVersion_1.TransactionVersion.SECRET_PROOF, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(SecretProofTransaction.calculateSize(this._proof), this._feeCalculationStrategy), this._hashType, this._secret, this._recipient, this._proof, this._signature, this._signer, this._transactionInfo);
+        return new SecretProofTransaction(this._networkType, this._version || TransactionVersion_1.TransactionVersion.SECRET_PROOF, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(SecretProofTransaction.calculateSize(this._proof), this._feeCalculationStrategy), this._hashType, this._secret, this._recipient, this._proof, this._signature, this._signer, this._transactionInfo);
     }
 }
 exports.SecretProofTransactionBuilder = SecretProofTransactionBuilder;

@@ -155,7 +155,7 @@ class TransferTransactionBuilder extends Transaction_1.TransactionBuilder {
         return this;
     }
     build() {
-        return new TransferTransaction(this._networkType, TransactionVersion_1.TransactionVersion.TRANSFER, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(TransferTransaction.calculateSize(this._message.size(), this._mosaics.length), this._feeCalculationStrategy), this._recipient, this._mosaics, this._message, this._signature, this._signer, this._transactionInfo);
+        return new TransferTransaction(this._networkType, this._version || TransactionVersion_1.TransactionVersion.TRANSFER, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(TransferTransaction.calculateSize(this._message.size(), this._mosaics.length), this._feeCalculationStrategy), this._recipient, this._mosaics, this._message, this._signature, this._signer, this._transactionInfo);
     }
 }
 exports.TransferTransactionBuilder = TransferTransactionBuilder;

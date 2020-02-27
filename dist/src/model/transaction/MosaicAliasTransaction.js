@@ -129,7 +129,7 @@ class MosaicAliasTransactionBuilder extends Transaction_1.TransactionBuilder {
         return this;
     }
     build() {
-        return new MosaicAliasTransaction(this._networkType, TransactionVersion_1.TransactionVersion.MOSAIC_ALIAS, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(MosaicAliasTransaction.calculateSize(), this._feeCalculationStrategy), this._actionType, this._namespaceId, this._mosaicId, this._signature, this._signer, this._transactionInfo);
+        return new MosaicAliasTransaction(this._networkType, this._version || TransactionVersion_1.TransactionVersion.MOSAIC_ALIAS, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(MosaicAliasTransaction.calculateSize(), this._feeCalculationStrategy), this._actionType, this._namespaceId, this._mosaicId, this._signature, this._signer, this._transactionInfo);
     }
 }
 exports.MosaicAliasTransactionBuilder = MosaicAliasTransactionBuilder;

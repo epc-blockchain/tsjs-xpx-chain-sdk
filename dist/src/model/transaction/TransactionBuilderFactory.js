@@ -26,6 +26,9 @@ const SecretLockTransaction_1 = require("./SecretLockTransaction");
 const SecretProofTransaction_1 = require("./SecretProofTransaction");
 const Deadline_1 = require("./Deadline");
 const FeeCalculationStrategy_1 = require("./FeeCalculationStrategy");
+const ExchangeOfferTransaction_1 = require("./ExchangeOfferTransaction");
+const AddExchangeOfferTransaction_1 = require("./AddExchangeOfferTransaction");
+const RemoveExchangeOfferTransaction_1 = require("./RemoveExchangeOfferTransaction");
 class TransactionBuilderFactory {
     constructor() {
         this._networkType = NetworkType_1.NetworkType.MIJIN_TEST;
@@ -186,6 +189,21 @@ class TransactionBuilderFactory {
     }
     secretProof() {
         const builder = new SecretProofTransaction_1.SecretProofTransactionBuilder();
+        this.configureBuilder(builder);
+        return builder;
+    }
+    addExchangeOffer() {
+        const builder = new AddExchangeOfferTransaction_1.AddExchangeOfferTransactionBuilder();
+        this.configureBuilder(builder);
+        return builder;
+    }
+    exchangeOffer() {
+        const builder = new ExchangeOfferTransaction_1.ExchangeOfferTransactionBuilder();
+        this.configureBuilder(builder);
+        return builder;
+    }
+    removeExchangeOffer() {
+        const builder = new RemoveExchangeOfferTransaction_1.RemoveExchangeOfferTransactionBuilder();
         this.configureBuilder(builder);
         return builder;
     }

@@ -166,7 +166,7 @@ class SecretLockTransactionBuilder extends Transaction_1.TransactionBuilder {
         return this;
     }
     build() {
-        return new SecretLockTransaction(this._networkType, TransactionVersion_1.TransactionVersion.SECRET_LOCK, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(SecretLockTransaction.calculateSize(), this._feeCalculationStrategy), this._mosaic, this._duration, this._hashType, this._secret, this._recipient, this._signature, this._signer, this._transactionInfo);
+        return new SecretLockTransaction(this._networkType, this._version || TransactionVersion_1.TransactionVersion.SECRET_LOCK, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(SecretLockTransaction.calculateSize(), this._feeCalculationStrategy), this._mosaic, this._duration, this._hashType, this._secret, this._recipient, this._signature, this._signer, this._transactionInfo);
     }
 }
 exports.SecretLockTransactionBuilder = SecretLockTransactionBuilder;

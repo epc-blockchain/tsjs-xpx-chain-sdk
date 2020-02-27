@@ -66,4 +66,8 @@ export declare class Convert {
      * @return {string}
      */
     static utf8ToHex: (input: string) => string;
+    /**
+     * Convert a UInt64 array to a uint8 array.
+     */
+    static UInt64ToUint8Array: (input: any) => number[];
 }

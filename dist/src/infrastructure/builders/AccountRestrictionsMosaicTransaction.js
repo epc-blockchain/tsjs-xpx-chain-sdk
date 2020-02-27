@@ -18,6 +18,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * @module transactions/AccountRestrictionsMosaicTransaction
  */
+const Convert_1 = require("../../core/format/Convert");
 const TransactionType_1 = require("../../model/transaction/TransactionType");
 const AccountPropertiesTransactionBuffer_1 = require("../buffers/AccountPropertiesTransactionBuffer");
 const AccountRestrictionsMosaicModificationTransactionSchema_1 = require("../schemas/AccountRestrictionsMosaicModificationTransactionSchema");
@@ -70,16 +71,7 @@ class Builder {
         const modificationsArray = [];
         this.modifications.forEach((modification) => {
             const mosaicModificationVector = PropertyModificationBuffer
-                .createValueVector(builder, new Uint8Array([
-                (modification.value[0] & 0xff) >> 0,
-                (modification.value[0] & 0xff00) >> 8,
-                (modification.value[0] & 0xff0000) >> 16,
-                (modification.value[0] & 0xff000000) >> 24,
-                (modification.value[1] & 0xff) >> 0,
-                (modification.value[1] & 0xff00) >> 8,
-                (modification.value[1] & 0xff0000) >> 16,
-                (modification.value[1] & 0xff000000) >> 24,
-            ]));
+                .createValueVector(builder, new Uint8Array(Convert_1.Convert.UInt64ToUint8Array(modification.value)));
             PropertyModificationBuffer.startPropertyModificationBuffer(builder);
             PropertyModificationBuffer.addModificationType(builder, modification.type);
             PropertyModificationBuffer.addValue(builder, mosaicModificationVector);

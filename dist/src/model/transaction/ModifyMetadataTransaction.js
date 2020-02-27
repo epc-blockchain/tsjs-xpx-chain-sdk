@@ -52,8 +52,8 @@ class ModifyMetadataTransaction extends Transaction_1.Transaction {
      * @param signer
      * @param transactionInfo
      */
-    constructor(transactionType, networkType, deadline, maxFee, metadataType, metadataId, modifications, signature, signer, transactionInfo) {
-        super(transactionType, networkType, TransactionVersion_1.TransactionVersion.MODIFY_METADATA, deadline, maxFee, signature, signer, transactionInfo);
+    constructor(transactionType, networkType, version, deadline, maxFee, metadataType, metadataId, modifications, signature, signer, transactionInfo) {
+        super(transactionType, networkType, version, deadline, maxFee, signature, signer, transactionInfo);
         this.metadataType = metadataType;
         this.metadataId = metadataId;
         this.modifications = modifications;
@@ -154,7 +154,7 @@ class ModifyMetadataTransactionBuilder extends Transaction_1.TransactionBuilder 
         return this;
     }
     build() {
-        return new ModifyMetadataTransaction(this._transactionType, this._networkType, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(ModifyMetadataTransaction.calculateSize(this._transactionType, this._modifications), this._feeCalculationStrategy), this._metadataType, this._metadataId, this._modifications, this._signature, this._signer, this._transactionInfo);
+        return new ModifyMetadataTransaction(this._transactionType, this._networkType, this._version || TransactionVersion_1.TransactionVersion.MODIFY_METADATA, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(ModifyMetadataTransaction.calculateSize(this._transactionType, this._modifications), this._feeCalculationStrategy), this._metadataType, this._metadataId, this._modifications, this._signature, this._signer, this._transactionInfo);
     }
 }
 class ModifyAccountMetadataTransactionBuilder extends ModifyMetadataTransactionBuilder {

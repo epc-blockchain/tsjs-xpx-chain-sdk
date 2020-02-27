@@ -9,8 +9,8 @@ const ModifyContractTransaction_1 = require("../../infrastructure/builders/Modif
 const TransactionType_1 = require("./TransactionType");
 const FeeCalculationStrategy_1 = require("./FeeCalculationStrategy");
 class ModifyContractTransaction extends Transaction_1.Transaction {
-    constructor(networkType, deadline, durationDelta, hash, customers, executors, verifiers, maxFee, signature, signer, transactionInfo) {
-        super(TransactionType_1.TransactionType.MODIFY_CONTRACT, networkType, TransactionVersion_1.TransactionVersion.MODIFY_CONTRACT, deadline, maxFee, signature, signer, transactionInfo);
+    constructor(networkType, version, deadline, durationDelta, hash, customers, executors, verifiers, maxFee, signature, signer, transactionInfo) {
+        super(TransactionType_1.TransactionType.MODIFY_CONTRACT, networkType, version, deadline, maxFee, signature, signer, transactionInfo);
         this.durationDelta = durationDelta;
         this.hash = hash;
         this.customers = customers;
@@ -110,7 +110,7 @@ class ModifyContractTransactionBuilder extends Transaction_1.TransactionBuilder 
         return this;
     }
     build() {
-        return new ModifyContractTransaction(this._networkType, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._durationDelta, this._hash, this._customers, this._executors, this._verifiers, this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(ModifyContractTransaction.calculateSize(this._hash.length, this._customers.length, this._executors.length, this._verifiers.length), this._feeCalculationStrategy), this._signature, this._signer, this._transactionInfo);
+        return new ModifyContractTransaction(this._networkType, this._version || TransactionVersion_1.TransactionVersion.MODIFY_CONTRACT, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._durationDelta, this._hash, this._customers, this._executors, this._verifiers, this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(ModifyContractTransaction.calculateSize(this._hash.length, this._customers.length, this._executors.length, this._verifiers.length), this._feeCalculationStrategy), this._signature, this._signer, this._transactionInfo);
     }
 }
 exports.ModifyContractTransactionBuilder = ModifyContractTransactionBuilder;

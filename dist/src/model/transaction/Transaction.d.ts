@@ -163,6 +163,7 @@ export declare abstract class Transaction {
 }
 export declare abstract class TransactionBuilder {
     protected _networkType: NetworkType;
+    protected _version: number;
     protected _deadline: Deadline;
     protected _generationHash: string;
     protected _feeCalculationStrategy: FeeCalculationStrategy;
@@ -172,6 +173,7 @@ export declare abstract class TransactionBuilder {
     protected _transactionInfo: TransactionInfo;
     protected _createNewDeadlineFn: () => Deadline;
     networkType(networkType: NetworkType): this;
+    version(version: number): this;
     deadline(deadline: Deadline): this;
     generationHash(generationHash: string): this;
     feeCalculationStrategy(feeCalculationStrategy: FeeCalculationStrategy): this;

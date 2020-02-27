@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+const Convert_1 = require("../../core/format/Convert");
 const TransactionType_1 = require("../../model/transaction/TransactionType");
 const AliasTransactionBuffer_1 = require("../buffers/AliasTransactionBuffer");
 const MosaicAliasTransactionSchema_1 = require("../schemas/MosaicAliasTransactionSchema");
@@ -82,16 +83,7 @@ class Builder {
         const namespaceIdVector = AliasTransactionBuffer
             .createNamespaceIdVector(builder, this.namespaceId);
         const mosaicIdVector = AliasTransactionBuffer
-            .createAliasIdVector(builder, new Uint8Array([
-            (this.mosaicId[0] & 0xff) >> 0,
-            (this.mosaicId[0] & 0xff00) >> 8,
-            (this.mosaicId[0] & 0xff0000) >> 16,
-            (this.mosaicId[0] & 0xff000000) >> 24,
-            (this.mosaicId[1] & 0xff) >> 0,
-            (this.mosaicId[1] & 0xff00) >> 8,
-            (this.mosaicId[1] & 0xff0000) >> 16,
-            (this.mosaicId[1] & 0xff000000) >> 24,
-        ]));
+            .createAliasIdVector(builder, new Uint8Array(Convert_1.Convert.UInt64ToUint8Array(this.mosaicId)));
         AliasTransactionBuffer.startAliasTransactionBuffer(builder);
         AliasTransactionBuffer.addSize(builder, this.size);
         AliasTransactionBuffer.addSignature(builder, signatureVector);

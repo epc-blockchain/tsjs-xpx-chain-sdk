@@ -108,7 +108,7 @@ class NamespaceHttp extends Http_1.Http {
      * @returns Observable<MosaicId | null>
      */
     getLinkedMosaicId(namespaceId) {
-        return this.getNetworkTypeObservable().pipe(operators_1.mergeMap((networkType) => rxjs_1.from(this.namespaceRoutesApi.getNamespace(namespaceId.toHex())).pipe(operators_1.map((namespaceInfoDTO) => {
+        return rxjs_1.from(this.namespaceRoutesApi.getNamespace(namespaceId.toHex())).pipe(operators_1.map((namespaceInfoDTO) => {
             if (namespaceInfoDTO.namespace === undefined) {
                 // forward js-xpx-chain-rest error
                 throw namespaceInfoDTO;
@@ -119,7 +119,7 @@ class NamespaceHttp extends Http_1.Http {
                 throw new Error('No mosaicId is linked to namespace \'' + namespaceInfoDTO.namespace.level0 + '\'');
             }
             return new MosaicId_1.MosaicId(namespaceInfoDTO.namespace.alias.mosaicId);
-        }))));
+        }));
     }
     /**
      * Gets the Address from a AddressAlias
@@ -127,7 +127,7 @@ class NamespaceHttp extends Http_1.Http {
      * @returns Observable<Address>
      */
     getLinkedAddress(namespaceId) {
-        return this.getNetworkTypeObservable().pipe(operators_1.mergeMap((networkType) => rxjs_1.from(this.namespaceRoutesApi.getNamespace(namespaceId.toHex())).pipe(operators_1.map((namespaceInfoDTO) => {
+        return rxjs_1.from(this.namespaceRoutesApi.getNamespace(namespaceId.toHex())).pipe(operators_1.map((namespaceInfoDTO) => {
             if (namespaceInfoDTO.namespace === undefined) {
                 // forward js-xpx-chain-rest error
                 throw namespaceInfoDTO;
@@ -140,7 +140,7 @@ class NamespaceHttp extends Http_1.Http {
             const addressDecoded = namespaceInfoDTO.namespace.alias.address;
             const address = format_1.RawAddress.addressToString(format_1.Convert.hexToUint8(addressDecoded));
             return Address_1.Address.createFromRawAddress(address);
-        }))));
+        }));
     }
     extractLevels(namespace) {
         const result = [];
@@ -164,10 +164,12 @@ class NamespaceHttp extends Http_1.Http {
      */
     extractAlias(namespace) {
         if (namespace.alias && namespace.alias.type === AliasType_1.AliasType.Mosaic) {
-            return new MosaicAlias_1.MosaicAlias(namespace.alias.type, namespace.alias.mosaicId);
+            return new MosaicAlias_1.MosaicAlias(namespace.alias.type, new MosaicId_1.MosaicId(namespace.alias.mosaicId));
         }
         else if (namespace.alias && namespace.alias.type === AliasType_1.AliasType.Address) {
-            return new AddressAlias_1.AddressAlias(namespace.alias.type, namespace.alias.address);
+            const addressDecoded = namespace.alias.address;
+            const address = format_1.RawAddress.addressToString(format_1.Convert.hexToUint8(addressDecoded));
+            return new AddressAlias_1.AddressAlias(namespace.alias.type, Address_1.Address.createFromRawAddress(address));
         }
         return new EmptyAlias_1.EmptyAlias();
     }

@@ -133,7 +133,7 @@ class AddressAliasTransactionBuilder extends Transaction_1.TransactionBuilder {
         return this;
     }
     build() {
-        return new AddressAliasTransaction(this._networkType, TransactionVersion_1.TransactionVersion.ADDRESS_ALIAS, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(AddressAliasTransaction.calculateSize(), this._feeCalculationStrategy), this._actionType, this._namespaceId, this._address, this._signature, this._signer, this._transactionInfo);
+        return new AddressAliasTransaction(this._networkType, this._version || TransactionVersion_1.TransactionVersion.ADDRESS_ALIAS, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(AddressAliasTransaction.calculateSize(), this._feeCalculationStrategy), this._actionType, this._namespaceId, this._address, this._signature, this._signer, this._transactionInfo);
     }
 }
 exports.AddressAliasTransactionBuilder = AddressAliasTransactionBuilder;

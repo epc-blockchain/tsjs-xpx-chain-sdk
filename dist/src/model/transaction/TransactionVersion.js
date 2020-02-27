@@ -128,4 +128,19 @@ TransactionVersion.CHAIN_CONFIG = 1;
  * @type {number}
  */
 TransactionVersion.CHAIN_UPGRADE = 1;
+/**
+ * Add exchange transaction version
+ * @type {number}
+ */
+TransactionVersion.ADD_EXCHANGE_OFFER = 1;
+/**
+ * Exchange transaction version
+ * @type {number}
+ */
+TransactionVersion.EXCHANGE_OFFER = 1;
+/**
+ * Remove exchange transaction version
+ * @type {number}
+ */
+TransactionVersion.REMOVE_EXCHANGE_OFFER = 1;
 //# sourceMappingURL=TransactionVersion.js.map

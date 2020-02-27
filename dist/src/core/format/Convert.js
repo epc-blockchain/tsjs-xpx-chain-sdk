@@ -162,4 +162,17 @@ Convert.utf8ToHex = (input) => {
     }
     return result;
 };
+/**
+ * Convert a UInt64 array to a uint8 array.
+ */
+Convert.UInt64ToUint8Array = (input) => [
+    (input[0] & 0xff) >> 0,
+    (input[0] & 0xff00) >> 8,
+    (input[0] & 0xff0000) >> 16,
+    (input[0] & 0xff000000) >> 24,
+    (input[1] & 0xff) >> 0,
+    (input[1] & 0xff00) >> 8,
+    (input[1] & 0xff0000) >> 16,
+    (input[1] & 0xff000000) >> 24,
+];
 //# sourceMappingURL=Convert.js.map

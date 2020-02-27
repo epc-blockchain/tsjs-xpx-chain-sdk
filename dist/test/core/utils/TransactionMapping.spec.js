@@ -59,6 +59,13 @@ const TransferTransaction_1 = require("../../../src/model/transaction/TransferTr
 const UInt64_1 = require("../../../src/model/UInt64");
 const conf_spec_1 = require("../../conf/conf.spec");
 const NetworkMosaic_1 = require("../../../src/model/mosaic/NetworkMosaic");
+const AddExchangeOfferTransaction_1 = require("../../../src/model/transaction/AddExchangeOfferTransaction");
+const AddExchangeOffer_1 = require("../../../src/model/transaction/AddExchangeOffer");
+const ExchangeOffer_1 = require("../../../src/model/transaction/ExchangeOffer");
+const ExchangeOfferType_1 = require("../../../src/model/transaction/ExchangeOfferType");
+const ExchangeOfferTransaction_1 = require("../../../src/model/transaction/ExchangeOfferTransaction");
+const RemoveExchangeOfferTransaction_1 = require("../../../src/model/transaction/RemoveExchangeOfferTransaction");
+const RemoveExchangeOffer_1 = require("../../../src/model/transaction/RemoveExchangeOffer");
 describe('TransactionMapping - createFromPayload', () => {
     let account;
     const generationHash = '57F7DA205008026C776CB6AED843393F04CD458E0AA2D9F1D5F31A402072B2D6';
@@ -376,6 +383,60 @@ describe('TransactionMapping - createFromPayload', () => {
         chai_1.expect(transaction.verifiers[1].type).to.be.equal(MultisigCosignatoryModificationType_1.MultisigCosignatoryModificationType.Add);
         chai_1.expect(transaction.verifiers[1].cosignatoryPublicAccount.publicKey).to.be.equal(verifierPublicKey2);
     });
+    it('should create AddExchangeOfferTransaction', () => {
+        const addExchangeOfferTransaction = AddExchangeOfferTransaction_1.AddExchangeOfferTransaction.create(Deadline_1.Deadline.create(), [
+            new AddExchangeOffer_1.AddExchangeOffer(new MosaicId_1.MosaicId('1234567890ABCDEF'), UInt64_1.UInt64.fromUint(12345678), UInt64_1.UInt64.fromUint(23456789), ExchangeOfferType_1.ExchangeOfferType.SELL_OFFER, UInt64_1.UInt64.fromUint(34567890)),
+            new AddExchangeOffer_1.AddExchangeOffer(new MosaicId_1.MosaicId('1234567890ABCDFF'), UInt64_1.UInt64.fromUint(12345678), UInt64_1.UInt64.fromUint(23456789), ExchangeOfferType_1.ExchangeOfferType.SELL_OFFER, UInt64_1.UInt64.fromUint(34567890))
+        ], NetworkType_1.NetworkType.MIJIN_TEST);
+        const signedTransaction = addExchangeOfferTransaction.signWith(account, generationHash);
+        const transaction = TransactionMapping_1.TransactionMapping.createFromPayload(signedTransaction.payload);
+        chai_1.expect(transaction.type).to.be.equal(TransactionType_1.TransactionType.ADD_EXCHANGE_OFFER);
+        chai_1.expect(transaction.offers.length).to.be.equal(2);
+        chai_1.expect(transaction.offers[0].mosaicId.toHex().toUpperCase()).to.be.equal('1234567890ABCDEF');
+        chai_1.expect(transaction.offers[0].mosaicAmount.compact()).to.be.equal(12345678);
+        chai_1.expect(transaction.offers[0].cost.compact()).to.be.equal(23456789);
+        chai_1.expect(transaction.offers[0].type).to.be.equal(ExchangeOfferType_1.ExchangeOfferType.SELL_OFFER);
+        chai_1.expect(transaction.offers[0].duration.compact()).to.be.equal(34567890);
+        chai_1.expect(transaction.offers[1].mosaicId.toHex().toUpperCase()).to.be.equal('1234567890ABCDFF');
+        chai_1.expect(transaction.offers[1].mosaicAmount.compact()).to.be.equal(12345678);
+        chai_1.expect(transaction.offers[1].cost.compact()).to.be.equal(23456789);
+        chai_1.expect(transaction.offers[1].type).to.be.equal(ExchangeOfferType_1.ExchangeOfferType.SELL_OFFER);
+        chai_1.expect(transaction.offers[1].duration.compact()).to.be.equal(34567890);
+    });
+    it('should create ExchangeOfferTransaction', () => {
+        const exchangeOfferTransaction = ExchangeOfferTransaction_1.ExchangeOfferTransaction.create(Deadline_1.Deadline.create(), [
+            new ExchangeOffer_1.ExchangeOffer(new MosaicId_1.MosaicId('1234567890ABCDEF'), UInt64_1.UInt64.fromUint(12345678), UInt64_1.UInt64.fromUint(23456789), ExchangeOfferType_1.ExchangeOfferType.SELL_OFFER, PublicAccount_1.PublicAccount.createFromPublicKey('6'.repeat(64), NetworkType_1.NetworkType.MIJIN_TEST)),
+            new ExchangeOffer_1.ExchangeOffer(new MosaicId_1.MosaicId('1234567890ABCDFF'), UInt64_1.UInt64.fromUint(12345678), UInt64_1.UInt64.fromUint(23456789), ExchangeOfferType_1.ExchangeOfferType.SELL_OFFER, PublicAccount_1.PublicAccount.createFromPublicKey('9'.repeat(64), NetworkType_1.NetworkType.MIJIN_TEST))
+        ], NetworkType_1.NetworkType.MIJIN_TEST);
+        const signedTransaction = exchangeOfferTransaction.signWith(account, generationHash);
+        const transaction = TransactionMapping_1.TransactionMapping.createFromPayload(signedTransaction.payload);
+        chai_1.expect(transaction.type).to.be.equal(TransactionType_1.TransactionType.EXCHANGE_OFFER);
+        chai_1.expect(transaction.offers.length).to.be.equal(2);
+        chai_1.expect(transaction.offers[0].mosaicId.toHex().toUpperCase()).to.be.equal('1234567890ABCDEF');
+        chai_1.expect(transaction.offers[0].mosaicAmount.compact()).to.be.equal(12345678);
+        chai_1.expect(transaction.offers[0].cost.compact()).to.be.equal(23456789);
+        chai_1.expect(transaction.offers[0].type).to.be.equal(ExchangeOfferType_1.ExchangeOfferType.SELL_OFFER);
+        chai_1.expect(transaction.offers[0].owner.publicKey).to.be.equal('6'.repeat(64));
+        chai_1.expect(transaction.offers[1].mosaicId.toHex().toUpperCase()).to.be.equal('1234567890ABCDFF');
+        chai_1.expect(transaction.offers[1].mosaicAmount.compact()).to.be.equal(12345678);
+        chai_1.expect(transaction.offers[1].cost.compact()).to.be.equal(23456789);
+        chai_1.expect(transaction.offers[1].type).to.be.equal(ExchangeOfferType_1.ExchangeOfferType.SELL_OFFER);
+        chai_1.expect(transaction.offers[1].owner.publicKey).to.be.equal('9'.repeat(64));
+    });
+    it('should create RemoveExchangeOfferTransaction', () => {
+        const removeExchangeOfferTransaction = RemoveExchangeOfferTransaction_1.RemoveExchangeOfferTransaction.create(Deadline_1.Deadline.create(), [
+            new RemoveExchangeOffer_1.RemoveExchangeOffer(new MosaicId_1.MosaicId('1234567890ABCDEF'), ExchangeOfferType_1.ExchangeOfferType.SELL_OFFER),
+            new RemoveExchangeOffer_1.RemoveExchangeOffer(new MosaicId_1.MosaicId('1234567890ABCDFF'), ExchangeOfferType_1.ExchangeOfferType.SELL_OFFER)
+        ], NetworkType_1.NetworkType.MIJIN_TEST);
+        const signedTransaction = removeExchangeOfferTransaction.signWith(account, generationHash);
+        const transaction = TransactionMapping_1.TransactionMapping.createFromPayload(signedTransaction.payload);
+        chai_1.expect(transaction.type).to.be.equal(TransactionType_1.TransactionType.REMOVE_EXCHANGE_OFFER);
+        chai_1.expect(transaction.offers.length).to.be.equal(2);
+        chai_1.expect(transaction.offers[0].mosaicId.toHex().toUpperCase()).to.be.equal('1234567890ABCDEF');
+        chai_1.expect(transaction.offers[0].offerType).to.be.equal(ExchangeOfferType_1.ExchangeOfferType.SELL_OFFER);
+        chai_1.expect(transaction.offers[1].mosaicId.toHex().toUpperCase()).to.be.equal('1234567890ABCDFF');
+        chai_1.expect(transaction.offers[1].offerType).to.be.equal(ExchangeOfferType_1.ExchangeOfferType.SELL_OFFER);
+    });
 });
 describe('TransactionMapping - createFromDTO (Transaction.toJSON() feed)', () => {
     let account;
@@ -534,6 +595,57 @@ describe('TransactionMapping - createFromDTO (Transaction.toJSON() feed)', () =>
         const registerNamespaceTransaction = RegisterNamespaceTransaction_1.RegisterNamespaceTransaction.createSubNamespace(Deadline_1.Deadline.create(), 'root-test-namespace', 'parent-test-namespace', NetworkType_1.NetworkType.MIJIN_TEST);
         const transaction = TransactionMapping_1.TransactionMapping.createFromDTO(registerNamespaceTransaction.toJSON());
         chai_1.expect(transaction.type).to.be.equal(TransactionType_1.TransactionType.REGISTER_NAMESPACE);
+    });
+    it('should create AddExchangeOfferTransaction', () => {
+        const addExchangeOfferTransaction = AddExchangeOfferTransaction_1.AddExchangeOfferTransaction.create(Deadline_1.Deadline.create(), [
+            new AddExchangeOffer_1.AddExchangeOffer(new MosaicId_1.MosaicId('1234567890ABCDEF'), UInt64_1.UInt64.fromUint(12345678), UInt64_1.UInt64.fromUint(23456789), ExchangeOfferType_1.ExchangeOfferType.SELL_OFFER, UInt64_1.UInt64.fromUint(34567890)),
+            new AddExchangeOffer_1.AddExchangeOffer(new MosaicId_1.MosaicId('1234567890ABCDFF'), UInt64_1.UInt64.fromUint(12345678), UInt64_1.UInt64.fromUint(23456789), ExchangeOfferType_1.ExchangeOfferType.SELL_OFFER, UInt64_1.UInt64.fromUint(34567890))
+        ], NetworkType_1.NetworkType.MIJIN_TEST);
+        const transaction = TransactionMapping_1.TransactionMapping.createFromDTO(addExchangeOfferTransaction.toJSON());
+        chai_1.expect(transaction.type).to.be.equal(TransactionType_1.TransactionType.ADD_EXCHANGE_OFFER);
+        chai_1.expect(transaction.offers.length).to.be.equal(2);
+        chai_1.expect(transaction.offers[0].mosaicId.toHex().toUpperCase()).to.be.equal('1234567890ABCDEF');
+        chai_1.expect(transaction.offers[0].mosaicAmount.compact()).to.be.equal(12345678);
+        chai_1.expect(transaction.offers[0].cost.compact()).to.be.equal(23456789);
+        chai_1.expect(transaction.offers[0].type).to.be.equal(ExchangeOfferType_1.ExchangeOfferType.SELL_OFFER);
+        chai_1.expect(transaction.offers[0].duration.compact()).to.be.equal(34567890);
+        chai_1.expect(transaction.offers[1].mosaicId.toHex().toUpperCase()).to.be.equal('1234567890ABCDFF');
+        chai_1.expect(transaction.offers[1].mosaicAmount.compact()).to.be.equal(12345678);
+        chai_1.expect(transaction.offers[1].cost.compact()).to.be.equal(23456789);
+        chai_1.expect(transaction.offers[1].type).to.be.equal(ExchangeOfferType_1.ExchangeOfferType.SELL_OFFER);
+        chai_1.expect(transaction.offers[1].duration.compact()).to.be.equal(34567890);
+    });
+    it('should create ExchangeOfferTransaction', () => {
+        const exchangeOfferTransaction = ExchangeOfferTransaction_1.ExchangeOfferTransaction.create(Deadline_1.Deadline.create(), [
+            new ExchangeOffer_1.ExchangeOffer(new MosaicId_1.MosaicId('1234567890ABCDEF'), UInt64_1.UInt64.fromUint(12345678), UInt64_1.UInt64.fromUint(23456789), ExchangeOfferType_1.ExchangeOfferType.SELL_OFFER, PublicAccount_1.PublicAccount.createFromPublicKey('6'.repeat(64), NetworkType_1.NetworkType.MIJIN_TEST)),
+            new ExchangeOffer_1.ExchangeOffer(new MosaicId_1.MosaicId('1234567890ABCDFF'), UInt64_1.UInt64.fromUint(12345678), UInt64_1.UInt64.fromUint(23456789), ExchangeOfferType_1.ExchangeOfferType.SELL_OFFER, PublicAccount_1.PublicAccount.createFromPublicKey('9'.repeat(64), NetworkType_1.NetworkType.MIJIN_TEST))
+        ], NetworkType_1.NetworkType.MIJIN_TEST);
+        const transaction = TransactionMapping_1.TransactionMapping.createFromDTO(exchangeOfferTransaction.toJSON());
+        chai_1.expect(transaction.type).to.be.equal(TransactionType_1.TransactionType.EXCHANGE_OFFER);
+        chai_1.expect(transaction.offers.length).to.be.equal(2);
+        chai_1.expect(transaction.offers[0].mosaicId.toHex().toUpperCase()).to.be.equal('1234567890ABCDEF');
+        chai_1.expect(transaction.offers[0].mosaicAmount.compact()).to.be.equal(12345678);
+        chai_1.expect(transaction.offers[0].cost.compact()).to.be.equal(23456789);
+        chai_1.expect(transaction.offers[0].type).to.be.equal(ExchangeOfferType_1.ExchangeOfferType.SELL_OFFER);
+        chai_1.expect(transaction.offers[0].owner.publicKey).to.be.equal('6'.repeat(64));
+        chai_1.expect(transaction.offers[1].mosaicId.toHex().toUpperCase()).to.be.equal('1234567890ABCDFF');
+        chai_1.expect(transaction.offers[1].mosaicAmount.compact()).to.be.equal(12345678);
+        chai_1.expect(transaction.offers[1].cost.compact()).to.be.equal(23456789);
+        chai_1.expect(transaction.offers[1].type).to.be.equal(ExchangeOfferType_1.ExchangeOfferType.SELL_OFFER);
+        chai_1.expect(transaction.offers[1].owner.publicKey).to.be.equal('9'.repeat(64));
+    });
+    it('should create RemoveExchangeOfferTransaction', () => {
+        const removeExchangeOfferTransaction = RemoveExchangeOfferTransaction_1.RemoveExchangeOfferTransaction.create(Deadline_1.Deadline.create(), [
+            new RemoveExchangeOffer_1.RemoveExchangeOffer(new MosaicId_1.MosaicId('1234567890ABCDEF'), ExchangeOfferType_1.ExchangeOfferType.SELL_OFFER),
+            new RemoveExchangeOffer_1.RemoveExchangeOffer(new MosaicId_1.MosaicId('1234567890ABCDFF'), ExchangeOfferType_1.ExchangeOfferType.SELL_OFFER)
+        ], NetworkType_1.NetworkType.MIJIN_TEST);
+        const transaction = TransactionMapping_1.TransactionMapping.createFromDTO(removeExchangeOfferTransaction.toJSON());
+        chai_1.expect(transaction.type).to.be.equal(TransactionType_1.TransactionType.REMOVE_EXCHANGE_OFFER);
+        chai_1.expect(transaction.offers.length).to.be.equal(2);
+        chai_1.expect(transaction.offers[0].mosaicId.toHex().toUpperCase()).to.be.equal('1234567890ABCDEF');
+        chai_1.expect(transaction.offers[0].offerType).to.be.equal(ExchangeOfferType_1.ExchangeOfferType.SELL_OFFER);
+        chai_1.expect(transaction.offers[1].mosaicId.toHex().toUpperCase()).to.be.equal('1234567890ABCDFF');
+        chai_1.expect(transaction.offers[1].offerType).to.be.equal(ExchangeOfferType_1.ExchangeOfferType.SELL_OFFER);
     });
 });
 //# sourceMappingURL=TransactionMapping.spec.js.map

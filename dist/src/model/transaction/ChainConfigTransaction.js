@@ -100,7 +100,7 @@ class ChainConfigTransactionBuilder extends Transaction_1.TransactionBuilder {
         return this;
     }
     build() {
-        return new ChainConfigTransaction(this._networkType, TransactionVersion_1.TransactionVersion.CHAIN_CONFIG, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(ChainConfigTransaction.calculateSize(this._networkConfig.length, this._supportedEntityVersions.length), this._feeCalculationStrategy), this._applyHeightDelta, this._networkConfig, this._supportedEntityVersions, this._signature, this._signer, this._transactionInfo);
+        return new ChainConfigTransaction(this._networkType, this._version || TransactionVersion_1.TransactionVersion.CHAIN_CONFIG, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(ChainConfigTransaction.calculateSize(this._networkConfig.length, this._supportedEntityVersions.length), this._feeCalculationStrategy), this._applyHeightDelta, this._networkConfig, this._supportedEntityVersions, this._signature, this._signer, this._transactionInfo);
     }
 }
 exports.ChainConfigTransactionBuilder = ChainConfigTransactionBuilder;

@@ -66,7 +66,7 @@ export declare class ModifyMetadataTransaction extends Transaction {
      * @param signer
      * @param transactionInfo
      */
-    constructor(transactionType: number, networkType: NetworkType, deadline: Deadline, maxFee: UInt64, metadataType: number, metadataId: string, modifications: MetadataModification[], signature?: string, signer?: PublicAccount, transactionInfo?: TransactionInfo | AggregateTransactionInfo);
+    constructor(transactionType: number, networkType: NetworkType, version: number, deadline: Deadline, maxFee: UInt64, metadataType: number, metadataId: string, modifications: MetadataModification[], signature?: string, signer?: PublicAccount, transactionInfo?: TransactionInfo | AggregateTransactionInfo);
     /**
      * @override Transaction.size()
      * @description get the byte size of a transaction

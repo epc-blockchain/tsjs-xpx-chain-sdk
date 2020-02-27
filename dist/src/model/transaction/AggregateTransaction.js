@@ -187,7 +187,7 @@ class AggregateCompleteTransactionBuilder extends Transaction_1.TransactionBuild
         return this;
     }
     build() {
-        return new AggregateTransaction(this._networkType, TransactionType_1.TransactionType.AGGREGATE_COMPLETE, TransactionVersion_1.TransactionVersion.AGGREGATE_COMPLETE, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(AggregateTransaction.calculateSize(this._innerTransactions), this._feeCalculationStrategy), this._innerTransactions, this._cosignatures, this._signature, this._signer, this._transactionInfo);
+        return new AggregateTransaction(this._networkType, TransactionType_1.TransactionType.AGGREGATE_COMPLETE, this._version || TransactionVersion_1.TransactionVersion.AGGREGATE_COMPLETE, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(AggregateTransaction.calculateSize(this._innerTransactions), this._feeCalculationStrategy), this._innerTransactions, this._cosignatures, this._signature, this._signer, this._transactionInfo);
     }
 }
 exports.AggregateCompleteTransactionBuilder = AggregateCompleteTransactionBuilder;
@@ -206,7 +206,7 @@ class AggregateBondedTransactionBuilder extends Transaction_1.TransactionBuilder
         return this;
     }
     build() {
-        return new AggregateTransaction(this._networkType, TransactionType_1.TransactionType.AGGREGATE_BONDED, TransactionVersion_1.TransactionVersion.AGGREGATE_BONDED, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(AggregateTransaction.calculateSize(this._innerTransactions), this._feeCalculationStrategy), this._innerTransactions, this._cosignatures, this._signature, this._signer, this._transactionInfo);
+        return new AggregateTransaction(this._networkType, TransactionType_1.TransactionType.AGGREGATE_BONDED, this._version || TransactionVersion_1.TransactionVersion.AGGREGATE_BONDED, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(AggregateTransaction.calculateSize(this._innerTransactions), this._feeCalculationStrategy), this._innerTransactions, this._cosignatures, this._signature, this._signer, this._transactionInfo);
     }
 }
 exports.AggregateBondedTransactionBuilder = AggregateBondedTransactionBuilder;

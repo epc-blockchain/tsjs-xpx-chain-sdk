@@ -146,7 +146,7 @@ const ConfTestingMosaicProperties = model_1.MosaicProperties.create({
     supplyMutable: true,
     transferable: true,
     divisibility: 3,
-    duration: model_1.UInt64.fromUint(1000)
+    duration: model_1.UInt64.fromUint(100000)
 });
 exports.ConfTestingMosaicProperties = ConfTestingMosaicProperties;
 const ConfTestingNamespaceId = new model_1.NamespaceId('testing');

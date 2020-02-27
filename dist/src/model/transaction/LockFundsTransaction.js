@@ -137,7 +137,7 @@ class LockFundsTransactionBuilder extends Transaction_1.TransactionBuilder {
         return this;
     }
     build() {
-        return new LockFundsTransaction(this._networkType, TransactionVersion_1.TransactionVersion.LOCK, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(LockFundsTransaction.calculateSize(), this._feeCalculationStrategy), this._mosaic, this._duration, this._signedTransaction, this._signature, this._signer, this._transactionInfo);
+        return new LockFundsTransaction(this._networkType, this._version || TransactionVersion_1.TransactionVersion.LOCK, this._deadline ? this._deadline : this._createNewDeadlineFn(), this._maxFee ? this._maxFee : FeeCalculationStrategy_1.calculateFee(LockFundsTransaction.calculateSize(), this._feeCalculationStrategy), this._mosaic, this._duration, this._signedTransaction, this._signature, this._signer, this._transactionInfo);
     }
 }
 exports.LockFundsTransactionBuilder = LockFundsTransactionBuilder;

@@ -21,6 +21,9 @@ import { SecretLockTransactionBuilder } from "./SecretLockTransaction";
 import { SecretProofTransactionBuilder } from "./SecretProofTransaction";
 import { Deadline } from "./Deadline";
 import { FeeCalculationStrategy } from "./FeeCalculationStrategy";
+import { ExchangeOfferTransactionBuilder } from "./ExchangeOfferTransaction";
+import { AddExchangeOfferTransactionBuilder } from "./AddExchangeOfferTransaction";
+import { RemoveExchangeOfferTransactionBuilder } from "./RemoveExchangeOfferTransaction";
 export declare class TransactionBuilderFactory {
     private _networkType;
     private _generationHash;
@@ -57,4 +60,7 @@ export declare class TransactionBuilderFactory {
     registerSubNamespace(): RegisterSubNamespaceTransactionBuilder;
     secretLock(): SecretLockTransactionBuilder;
     secretProof(): SecretProofTransactionBuilder;
+    addExchangeOffer(): AddExchangeOfferTransactionBuilder;
+    exchangeOffer(): ExchangeOfferTransactionBuilder;
+    removeExchangeOffer(): RemoveExchangeOfferTransactionBuilder;
 }
