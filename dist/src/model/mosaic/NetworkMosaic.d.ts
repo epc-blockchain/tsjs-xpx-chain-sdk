@@ -11,6 +11,7 @@ export declare class KnownMosaicProperties {
 }
 export declare const XpxMosaicProperties: KnownMosaicProperties;
 export declare const EpccMosaicProperties: KnownMosaicProperties;
+export declare const StableCoinMosaicProperties: KnownMosaicProperties;
 /**
  * NetworkMosaic mosaic
  *

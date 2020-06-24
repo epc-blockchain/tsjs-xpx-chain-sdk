@@ -50,6 +50,16 @@ export const EpccMosaicProperties = new KnownMosaicProperties(
     })
 );
 
+export const StableCoinMosaicProperties = new KnownMosaicProperties(
+    new MosaicId("41ff162249ade073"),
+    UInt64.fromUint(9000000000), // initial supply
+    MosaicProperties.create({
+        supplyMutable: false,
+        transferable: true,
+        divisibility: 6
+    })
+);
+
 /**
  * NetworkMosaic mosaic
  *
