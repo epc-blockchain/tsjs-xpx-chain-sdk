@@ -44,10 +44,12 @@ export class Deadline {
         const timeStampDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(networkTimeStamp), ZoneId.SYSTEM);
         const deadlineDateTime = timeStampDateTime.plus(deadline, chronoUnit);
 
+        const maximumDeadline = timeStampDateTime.plus((24 * 60 * 7) + 1, ChronoUnit.MINUTES);
+
         if (deadline <= 0) {
             throw new Error('deadline should be greater than 0');
-        } else if (timeStampDateTime.plus((168 * 60) + 1, ChronoUnit.MINUTES).compareTo(deadlineDateTime) !== 1) {
-            throw new Error('deadline cannot be more that 7 days');
+        } else if (maximumDeadline.compareTo(deadlineDateTime) < 1) {
+            throw new Error('deadline should be less that 7 days');
         }
 
         return new Deadline(deadlineDateTime);
