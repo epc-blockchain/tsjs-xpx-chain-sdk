@@ -41,8 +41,8 @@ class Deadline {
         if (deadline <= 0) {
             throw new Error('deadline should be greater than 0');
         }
-        else if (timeStampDateTime.plus(24, js_joda_1.ChronoUnit.HOURS).compareTo(deadlineDateTime) !== 1) {
-            throw new Error('deadline should be less than 24 hours');
+        else if (timeStampDateTime.plus((168 * 60) + 1, js_joda_1.ChronoUnit.MINUTES).compareTo(deadlineDateTime) !== 1) {
+            throw new Error('deadline cannot be more that 7 days');
         }
         return new Deadline(deadlineDateTime);
     }
