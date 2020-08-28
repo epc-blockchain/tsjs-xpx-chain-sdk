@@ -40,7 +40,8 @@ class NodeHttp extends Http_1.Http {
      * @summary Get the node information
      */
     getNodeInfo() {
-        return rxjs_1.from(this.nodeRoutesApi.getNodeInfo()).pipe(operators_1.map((nodeInfoDTO) => {
+        return rxjs_1.from(this.nodeRoutesApi.getNodeInfo()).pipe(operators_1.map(response => {
+            const nodeInfoDTO = response.body;
             return new NodeInfo_1.NodeInfo(nodeInfoDTO.publicKey, nodeInfoDTO.port, nodeInfoDTO.networkIdentifier, nodeInfoDTO.version, nodeInfoDTO.roles, nodeInfoDTO.host, nodeInfoDTO.friendlyName);
         }));
     }
@@ -49,7 +50,8 @@ class NodeHttp extends Http_1.Http {
      * @summary Get the node time
      */
     getNodeTime() {
-        return rxjs_1.from(this.nodeRoutesApi.getNodeTime()).pipe(operators_1.map((nodeTimeDTO) => {
+        return rxjs_1.from(this.nodeRoutesApi.getNodeTime()).pipe(operators_1.map(response => {
+            const nodeTimeDTO = response.body;
             return new NodeTime_1.NodeTime(nodeTimeDTO.communicationTimestamps.sendTimestamp, nodeTimeDTO.communicationTimestamps.receiveTimestamp);
         }));
     }

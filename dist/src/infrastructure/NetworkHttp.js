@@ -40,7 +40,8 @@ class NetworkHttp extends Http_1.Http {
      * @return network type enum.
      */
     getNetworkType() {
-        return rxjs_1.from(this.networkRoutesApi.getNetworkType()).pipe(operators_1.map((networkTypeDTO) => {
+        return rxjs_1.from(this.networkRoutesApi.getNetworkType()).pipe(operators_1.map(response => {
+            const networkTypeDTO = response.body;
             if (networkTypeDTO.name === 'mijinTest') {
                 return NetworkType_1.NetworkType.MIJIN_TEST;
             }

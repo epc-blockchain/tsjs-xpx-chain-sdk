@@ -55,7 +55,8 @@ class AccountHttp extends Http_1.Http {
      * @returns Observable<AccountInfo>
      */
     getAccountInfo(address) {
-        return rxjs_1.from(this.accountRoutesApi.getAccountInfo(address.plain())).pipe(operators_1.map((accountInfoDTO) => {
+        return rxjs_1.from(this.accountRoutesApi.getAccountInfo(address.plain())).pipe(operators_1.map(response => {
+            const accountInfoDTO = response.body;
             return new AccountInfo_1.AccountInfo(accountInfoDTO.meta, Address_1.Address.createFromEncoded(accountInfoDTO.account.address), new UInt64_1.UInt64(accountInfoDTO.account.addressHeight), accountInfoDTO.account.publicKey, new UInt64_1.UInt64(accountInfoDTO.account.publicKeyHeight), accountInfoDTO.account.mosaics.map((mosaicDTO) => new Mosaic_1.Mosaic(new MosaicId_1.MosaicId(mosaicDTO.id), new UInt64_1.UInt64(mosaicDTO.amount))));
         }));
     }
@@ -65,9 +66,9 @@ class AccountHttp extends Http_1.Http {
      * @returns Observable<AccountRestrictionsInfo>
      */
     getAccountRestrictions(address) {
-        return rxjs_1.from(this.accountRoutesApi.getAccountRestrictions(address.plain()))
-            .pipe(operators_1.map((accountRestrictions) => {
-            return DtoMapping_1.DtoMapping.extractAccountRestrictionFromDto(accountRestrictions);
+        return rxjs_1.from(this.accountRoutesApi.getAccountProperties(address.plain()))
+            .pipe(operators_1.map(response => {
+            return DtoMapping_1.DtoMapping.extractAccountRestrictionFromDto(response.body);
         }));
     }
     /**
@@ -79,9 +80,9 @@ class AccountHttp extends Http_1.Http {
         const accountIds = {
             addresses: addresses.map((address) => address.plain()),
         };
-        return rxjs_1.from(this.accountRoutesApi.getAccountRestrictionsFromAccounts(accountIds))
-            .pipe(operators_1.map((accountRestrictions) => {
-            return accountRestrictions.map((restriction) => {
+        return rxjs_1.from(this.accountRoutesApi.getAccountPropertiesFromAccounts(accountIds))
+            .pipe(operators_1.map(response => {
+            return response.body.map((restriction) => {
                 return DtoMapping_1.DtoMapping.extractAccountRestrictionFromDto(restriction);
             });
         }));
@@ -95,8 +96,8 @@ class AccountHttp extends Http_1.Http {
         const accountIdsBody = {
             addresses: addresses.map((address) => address.plain()),
         };
-        return rxjs_1.from(this.accountRoutesApi.getAccountsInfo(accountIdsBody)).pipe(operators_1.map((accountsInfoMetaDataDTO) => {
-            return accountsInfoMetaDataDTO.map((accountInfoDTO) => {
+        return rxjs_1.from(this.accountRoutesApi.getAccountsInfo(accountIdsBody)).pipe(operators_1.map(response => {
+            return response.body.map((accountInfoDTO) => {
                 return new AccountInfo_1.AccountInfo(accountInfoDTO.meta, Address_1.Address.createFromEncoded(accountInfoDTO.account.address), new UInt64_1.UInt64(accountInfoDTO.account.addressHeight), accountInfoDTO.account.publicKey, new UInt64_1.UInt64(accountInfoDTO.account.publicKeyHeight), accountInfoDTO.account.mosaics.map((mosaicDTO) => new Mosaic_1.Mosaic(new MosaicId_1.MosaicId(mosaicDTO.id), new UInt64_1.UInt64(mosaicDTO.amount))));
             });
         }));
@@ -105,8 +106,8 @@ class AccountHttp extends Http_1.Http {
         const accountIdsBody = {
             addresses: addresses.map((address) => address.plain()),
         };
-        return rxjs_1.from(this.accountRoutesApi.getAccountsNames(accountIdsBody)).pipe(operators_1.map((accountNames) => {
-            return accountNames.map((accountName) => {
+        return rxjs_1.from(this.accountRoutesApi.getAccountsNames(accountIdsBody)).pipe(operators_1.map(response => {
+            return response.body.map((accountName) => {
                 return new AccountNames_1.AccountNames(Address_1.Address.createFromEncoded(accountName.address), accountName.names.map((name) => {
                     return new NamespaceName_1.NamespaceName(new NamespaceId_1.NamespaceId(name), name);
                 }));
@@ -120,7 +121,8 @@ class AccountHttp extends Http_1.Http {
      */
     getMultisigAccountInfo(address) {
         return this.getNetworkTypeObservable().pipe(operators_1.mergeMap((networkType) => rxjs_1.from(this.accountRoutesApi.getAccountMultisig(address.plain()))
-            .pipe(operators_1.map((multisigAccountInfoDTO) => {
+            .pipe(operators_1.map(response => {
+            const multisigAccountInfoDTO = response.body;
             return new MultisigAccountInfo_1.MultisigAccountInfo(PublicAccount_1.PublicAccount.createFromPublicKey(multisigAccountInfoDTO.multisig.account, networkType), multisigAccountInfoDTO.multisig.minApproval, multisigAccountInfoDTO.multisig.minRemoval, multisigAccountInfoDTO.multisig.cosignatories
                 .map((cosigner) => PublicAccount_1.PublicAccount.createFromPublicKey(cosigner, networkType)), multisigAccountInfoDTO.multisig.multisigAccounts
                 .map((multisigAccount) => PublicAccount_1.PublicAccount.createFromPublicKey(multisigAccount, networkType)));
@@ -133,9 +135,9 @@ class AccountHttp extends Http_1.Http {
      */
     getMultisigAccountGraphInfo(address) {
         return this.getNetworkTypeObservable().pipe(operators_1.mergeMap((networkType) => rxjs_1.from(this.accountRoutesApi.getAccountMultisigGraph(address.plain()))
-            .pipe(operators_1.map((multisigAccountGraphInfosDTO) => {
+            .pipe(operators_1.map(response => {
             const multisigAccounts = new Map();
-            multisigAccountGraphInfosDTO.map((multisigAccountGraphInfoDTO) => {
+            response.body.map((multisigAccountGraphInfoDTO) => {
                 multisigAccounts.set(multisigAccountGraphInfoDTO.level, multisigAccountGraphInfoDTO.multisigEntries.map((multisigAccountInfoDTO) => {
                     return new MultisigAccountInfo_1.MultisigAccountInfo(PublicAccount_1.PublicAccount.createFromPublicKey(multisigAccountInfoDTO.multisig.account, networkType), multisigAccountInfoDTO.multisig.minApproval, multisigAccountInfoDTO.multisig.minRemoval, multisigAccountInfoDTO.multisig.cosignatories
                         .map((cosigner) => PublicAccount_1.PublicAccount.createFromPublicKey(cosigner, networkType)), multisigAccountInfoDTO.multisig.multisigAccounts
@@ -152,8 +154,8 @@ class AccountHttp extends Http_1.Http {
      * @returns Observable<Transaction[]>
      */
     transactions(publicAccount, queryParams) {
-        return rxjs_1.from(this.accountRoutesApi.transactions(publicAccount.publicKey, this.queryParams(queryParams).pageSize, this.queryParams(queryParams).id, this.queryParams(queryParams).order)).pipe(operators_1.map((transactionsDTO) => {
-            return transactionsDTO.map((transactionDTO) => {
+        return rxjs_1.from(this.accountRoutesApi.transactions(publicAccount.publicKey, this.queryParams(queryParams).pageSize, this.queryParams(queryParams).id, this.queryParams(queryParams).order)).pipe(operators_1.map(response => {
+            return response.body.map((transactionDTO) => {
                 return CreateTransactionFromDTO_1.CreateTransactionFromDTO(transactionDTO);
             });
         }));
@@ -167,8 +169,8 @@ class AccountHttp extends Http_1.Http {
      */
     incomingTransactions(accountId, queryParams) {
         const id = accountId instanceof PublicAccount_1.PublicAccount ? accountId.publicKey : accountId.plain();
-        return rxjs_1.from(this.accountRoutesApi.incomingTransactions(id, this.queryParams(queryParams).pageSize, this.queryParams(queryParams).id, this.queryParams(queryParams).order)).pipe(operators_1.map((transactionsDTO) => {
-            return transactionsDTO.map((transactionDTO) => {
+        return rxjs_1.from(this.accountRoutesApi.incomingTransactions(id, this.queryParams(queryParams).pageSize, this.queryParams(queryParams).id, this.queryParams(queryParams).order)).pipe(operators_1.map(response => {
+            return response.body.map((transactionDTO) => {
                 return CreateTransactionFromDTO_1.CreateTransactionFromDTO(transactionDTO);
             });
         }));
@@ -181,8 +183,8 @@ class AccountHttp extends Http_1.Http {
      * @returns Observable<Transaction[]>
      */
     outgoingTransactions(publicAccount, queryParams) {
-        return rxjs_1.from(this.accountRoutesApi.outgoingTransactions(publicAccount.publicKey, this.queryParams(queryParams).pageSize, this.queryParams(queryParams).id, this.queryParams(queryParams).order)).pipe(operators_1.map((transactionsDTO) => {
-            return transactionsDTO.map((transactionDTO) => {
+        return rxjs_1.from(this.accountRoutesApi.outgoingTransactions(publicAccount.publicKey, this.queryParams(queryParams).pageSize, this.queryParams(queryParams).id, this.queryParams(queryParams).order)).pipe(operators_1.map(response => {
+            return response.body.map((transactionDTO) => {
                 return CreateTransactionFromDTO_1.CreateTransactionFromDTO(transactionDTO);
             });
         }));
@@ -196,8 +198,8 @@ class AccountHttp extends Http_1.Http {
      * @returns Observable<Transaction[]>
      */
     unconfirmedTransactions(publicAccount, queryParams) {
-        return rxjs_1.from(this.accountRoutesApi.unconfirmedTransactions(publicAccount.publicKey, this.queryParams(queryParams).pageSize, this.queryParams(queryParams).id, this.queryParams(queryParams).order)).pipe(operators_1.map((transactionsDTO) => {
-            return transactionsDTO.map((transactionDTO) => {
+        return rxjs_1.from(this.accountRoutesApi.unconfirmedTransactions(publicAccount.publicKey, this.queryParams(queryParams).pageSize, this.queryParams(queryParams).id, this.queryParams(queryParams).order)).pipe(operators_1.map(response => {
+            return response.body.map((transactionDTO) => {
                 return CreateTransactionFromDTO_1.CreateTransactionFromDTO(transactionDTO);
             });
         }));
@@ -210,8 +212,8 @@ class AccountHttp extends Http_1.Http {
      * @returns Observable<AggregateTransaction[]>
      */
     aggregateBondedTransactions(publicAccount, queryParams) {
-        return rxjs_1.from(this.accountRoutesApi.partialTransactions(publicAccount.publicKey, this.queryParams(queryParams).pageSize, this.queryParams(queryParams).id, this.queryParams(queryParams).order)).pipe(operators_1.map((transactionsDTO) => {
-            return transactionsDTO.map((transactionDTO) => {
+        return rxjs_1.from(this.accountRoutesApi.partialTransactions(publicAccount.publicKey, this.queryParams(queryParams).pageSize, this.queryParams(queryParams).id, this.queryParams(queryParams).order)).pipe(operators_1.map(response => {
+            return response.body.map((transactionDTO) => {
                 return CreateTransactionFromDTO_1.CreateTransactionFromDTO(transactionDTO);
             });
         }));

@@ -51,6 +51,12 @@ class Http {
             order: queryParams ? queryParams.order : undefined,
         };
     }
+    pageQueryParams(queryParams) {
+        return {
+            page: queryParams ? queryParams.page : undefined,
+            pageSize: queryParams ? queryParams.pageSize : undefined
+        };
+    }
 }
 exports.Http = Http;
 //# sourceMappingURL=Http.js.map

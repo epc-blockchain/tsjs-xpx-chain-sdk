@@ -8,31 +8,6 @@ import { AddressMetadata } from '../model/metadata/AddressMetadata';
 import { NamespaceMetadata } from '../model/metadata/NamespaceMetadata';
 import { MosaicMetadata } from '../model/metadata/MosaicMetadata';
 /**
- export declare class MetadataRoutesApi {
-  constructor(apiClient: any);
-
-  getAccountMetadata(accountId: any): Promise<any>;
-
-  getAccountMetadataWithHttpInfo(accountId: any): Promise<any>;
-
-  getMetadata(metadataId: any): Promise<any>;
-
-  getMetadataWithHttpInfo(metadataId: any): Promise<any>;
-
-  getMetadatas(metadataIds: any): Promise<any>;
-
-  getMetadatasWithHttpInfo(metadataIds: any): Promise<any>;
-
-  getMosaicMetadata(mosaicId: any): Promise<any>;
-
-  getMosaicMetadataWithHttpInfo(mosaicId: any): Promise<any>;
-
-  getNamespaceMetadata(namespaceId: any): Promise<any>;
-
-  getNamespaceMetadataWithHttpInfo(namespaceId: any): Promise<any>;
-
-}*/
-/**
  * Metadata http repository.
  *
  * @since 0.1.0
@@ -47,9 +22,19 @@ export declare class MetadataHttp extends Http implements MetadataRepository {
     /**
      * Gets the Metadata for a given accountId
      * @param accountId - Account address/public key
-     * @returns Observable<MosaicInfo>
+     * @returns Observable<AddressMetadata>
      */
     getAccountMetadata(accountId: string): Observable<AddressMetadata>;
+    /**
+     * Gets the Metadata for a given namespaceId
+     * @param namespaceId - the id of the namespace
+     * @returns Observable<NamespaceMetadata>
+     */
     getNamespaceMetadata(namespaceId: NamespaceId): Observable<NamespaceMetadata>;
+    /**
+     * Gets the Metadata for a given mosaicId
+     * @param mosaicId - the id of the mosaic
+     * @returns Observable<MosaicMetadata>
+     */
     getMosaicMetadata(mosaicId: MosaicId): Observable<MosaicMetadata>;
 }

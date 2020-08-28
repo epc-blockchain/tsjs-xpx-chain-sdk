@@ -95,11 +95,6 @@ export declare class TransactionVersion {
      */
     static readonly MODIFY_METADATA = 1;
     /**
-     * Modify contract transaction version
-     * @type {number}
-     */
-    static readonly MODIFY_CONTRACT = 3;
-    /**
      * Chain configuration transaction version
      * @type {number}
      */
@@ -113,7 +108,7 @@ export declare class TransactionVersion {
      * Add exchange transaction version
      * @type {number}
      */
-    static readonly ADD_EXCHANGE_OFFER = 1;
+    static readonly ADD_EXCHANGE_OFFER = 2;
     /**
      * Exchange transaction version
      * @type {number}

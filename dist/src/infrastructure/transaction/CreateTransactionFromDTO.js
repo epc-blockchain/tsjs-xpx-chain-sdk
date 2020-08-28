@@ -56,7 +56,6 @@ const TransferTransaction_1 = require("../../model/transaction/TransferTransacti
 const UInt64_1 = require("../../model/UInt64");
 const ModifyMetadataTransaction_1 = require("../../model/transaction/ModifyMetadataTransaction");
 const MetadataType_1 = require("../../model/metadata/MetadataType");
-const ModifyContractTransaction_1 = require("../../model/transaction/ModifyContractTransaction");
 const AddExchangeOfferTransaction_1 = require("../../model/transaction/AddExchangeOfferTransaction");
 const AddExchangeOffer_1 = require("../../model/transaction/AddExchangeOffer");
 const ExchangeOfferTransaction_1 = require("../../model/transaction/ExchangeOfferTransaction");
@@ -182,24 +181,6 @@ const CreateStandaloneTransactionFromDTO = (transactionDTO, transactionInfo) => 
                 throw new Error('Unimplemented modify metadata transaction with type ' + metadataType);
             }
         }
-    }
-    else if (transactionDTO.type === TransactionType_1.TransactionType.MODIFY_CONTRACT) {
-        const networkType = exports.extractNetworkType(transactionDTO.version);
-        const transactionVersion = exports.extractTransactionVersion(transactionDTO.version);
-        const deadline = Deadline_1.Deadline.createFromDTO(transactionDTO.deadline);
-        const maxFee = new UInt64_1.UInt64(transactionDTO.maxFee || [0, 0]);
-        const durationDelta = new UInt64_1.UInt64(transactionDTO.duration || [0, 0]);
-        const hash = transactionDTO.hash;
-        const customers = transactionDTO.customers ?
-            transactionDTO.customers.map(c => new MultisigCosignatoryModification_1.MultisigCosignatoryModification(c.type, PublicAccount_1.PublicAccount.createFromPublicKey(c.cosignatoryPublicKey, networkType))) :
-            undefined;
-        const executors = transactionDTO.executors ?
-            transactionDTO.executors.map(e => new MultisigCosignatoryModification_1.MultisigCosignatoryModification(e.type, PublicAccount_1.PublicAccount.createFromPublicKey(e.cosignatoryPublicKey, networkType))) :
-            undefined;
-        const verifiers = transactionDTO.verifiers ?
-            transactionDTO.verifiers.map(v => new MultisigCosignatoryModification_1.MultisigCosignatoryModification(v.type, PublicAccount_1.PublicAccount.createFromPublicKey(v.cosignatoryPublicKey, networkType))) :
-            undefined;
-        return new ModifyContractTransaction_1.ModifyContractTransaction(networkType, transactionVersion, deadline, durationDelta, hash, customers, executors, verifiers, maxFee, transactionDTO.signature, transactionDTO.signer ? PublicAccount_1.PublicAccount.createFromPublicKey(transactionDTO.signer, exports.extractNetworkType(transactionDTO.version)) : undefined, transactionInfo);
     }
     else if (transactionDTO.type === TransactionType_1.TransactionType.CHAIN_UPGRADE) {
         return new ChainUpgradeTransaction_1.ChainUpgradeTransaction(exports.extractNetworkType(transactionDTO.version), exports.extractTransactionVersion(transactionDTO.version), Deadline_1.Deadline.createFromDTO(transactionDTO.deadline), new UInt64_1.UInt64(transactionDTO.maxFee || [0, 0]), new UInt64_1.UInt64(transactionDTO.upgradePeriod), new UInt64_1.UInt64(transactionDTO.newBlockchainVersion), transactionDTO.signature, transactionDTO.signer ? PublicAccount_1.PublicAccount.createFromPublicKey(transactionDTO.signer, exports.extractNetworkType(transactionDTO.version)) : undefined, transactionInfo);

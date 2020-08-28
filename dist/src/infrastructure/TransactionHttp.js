@@ -50,8 +50,8 @@ class TransactionHttp extends Http_1.Http {
      * @returns Observable<Transaction>
      */
     getTransaction(transactionId) {
-        return rxjs_1.from(this.transactionRoutesApi.getTransaction(transactionId)).pipe(operators_1.map((transactionDTO) => {
-            return CreateTransactionFromDTO_1.CreateTransactionFromDTO(transactionDTO);
+        return rxjs_1.from(this.transactionRoutesApi.getTransaction(transactionId)).pipe(operators_1.map(response => {
+            return CreateTransactionFromDTO_1.CreateTransactionFromDTO(response.body);
         }));
     }
     /**
@@ -63,8 +63,8 @@ class TransactionHttp extends Http_1.Http {
         const transactionIdsBody = {
             transactionIds,
         };
-        return rxjs_1.from(this.transactionRoutesApi.getTransactions(transactionIdsBody)).pipe(operators_1.map((transactionsDTO) => {
-            return transactionsDTO.map((transactionDTO) => {
+        return rxjs_1.from(this.transactionRoutesApi.getTransactions(transactionIdsBody)).pipe(operators_1.map(response => {
+            return response.body.map((transactionDTO) => {
                 return CreateTransactionFromDTO_1.CreateTransactionFromDTO(transactionDTO);
             });
         }));
@@ -75,7 +75,8 @@ class TransactionHttp extends Http_1.Http {
      * @returns Observable<TransactionStatus>
      */
     getTransactionStatus(transactionHash) {
-        return rxjs_1.from(this.transactionRoutesApi.getTransactionStatus(transactionHash)).pipe(operators_1.map((transactionStatusDTO) => {
+        return rxjs_1.from(this.transactionRoutesApi.getTransactionStatus(transactionHash)).pipe(operators_1.map(response => {
+            const transactionStatusDTO = response.body;
             return new TransactionStatus_1.TransactionStatus(transactionStatusDTO.status, transactionStatusDTO.group, transactionStatusDTO.hash, transactionStatusDTO.deadline ? Deadline_1.Deadline.createFromDTO(transactionStatusDTO.deadline) : undefined, transactionStatusDTO.height ? new UInt64_1.UInt64(transactionStatusDTO.height) : undefined);
         }));
     }
@@ -88,8 +89,8 @@ class TransactionHttp extends Http_1.Http {
         const transactionHashesBody = {
             hashes: transactionHashes,
         };
-        return rxjs_1.from(this.transactionRoutesApi.getTransactionsStatuses(transactionHashesBody)).pipe(operators_1.map((transactionStatusesDTO) => {
-            return transactionStatusesDTO.map((transactionStatusDTO) => {
+        return rxjs_1.from(this.transactionRoutesApi.getTransactionsStatuses(transactionHashesBody)).pipe(operators_1.map(response => {
+            return response.body.map((transactionStatusDTO) => {
                 return new TransactionStatus_1.TransactionStatus(transactionStatusDTO.status, transactionStatusDTO.group, transactionStatusDTO.hash, transactionStatusDTO.deadline ? Deadline_1.Deadline.createFromDTO(transactionStatusDTO.deadline) : undefined, transactionStatusDTO.height ? new UInt64_1.UInt64(transactionStatusDTO.height) : undefined);
             });
         }));
@@ -100,8 +101,8 @@ class TransactionHttp extends Http_1.Http {
      * @returns Observable<TransactionAnnounceResponse>
      */
     announce(signedTransaction) {
-        return rxjs_1.from(this.transactionRoutesApi.announceTransaction(signedTransaction)).pipe(operators_1.map((transactionAnnounceResponseDTO) => {
-            return new TransactionAnnounceResponse_1.TransactionAnnounceResponse(transactionAnnounceResponseDTO.message);
+        return rxjs_1.from(this.transactionRoutesApi.announceTransaction(signedTransaction)).pipe(operators_1.map(response => {
+            return new TransactionAnnounceResponse_1.TransactionAnnounceResponse(response.body.message);
         }));
     }
     /**
@@ -113,8 +114,8 @@ class TransactionHttp extends Http_1.Http {
         if (signedTransaction.type !== TransactionType_1.TransactionType.AGGREGATE_BONDED) {
             return rxjs_1.throwError('Only Transaction Type 0x4241 is allowed for announce aggregate bonded');
         }
-        return rxjs_1.from(this.transactionRoutesApi.announcePartialTransaction(signedTransaction)).pipe(operators_1.map((transactionAnnounceResponseDTO) => {
-            return new TransactionAnnounceResponse_1.TransactionAnnounceResponse(transactionAnnounceResponseDTO.message);
+        return rxjs_1.from(this.transactionRoutesApi.announcePartialTransaction(signedTransaction)).pipe(operators_1.map(response => {
+            return new TransactionAnnounceResponse_1.TransactionAnnounceResponse(response.body.message);
         }));
     }
     /**
@@ -123,8 +124,8 @@ class TransactionHttp extends Http_1.Http {
      * @returns Observable<TransactionAnnounceResponse>
      */
     announceAggregateBondedCosignature(cosignatureSignedTransaction) {
-        return rxjs_1.from(this.transactionRoutesApi.announceCosignatureTransaction(cosignatureSignedTransaction)).pipe(operators_1.map((transactionAnnounceResponseDTO) => {
-            return new TransactionAnnounceResponse_1.TransactionAnnounceResponse(transactionAnnounceResponseDTO.message);
+        return rxjs_1.from(this.transactionRoutesApi.announceCosignatureTransaction(cosignatureSignedTransaction)).pipe(operators_1.map(response => {
+            return new TransactionAnnounceResponse_1.TransactionAnnounceResponse(response.body.message);
         }));
     }
     announceSync(signedTx) {
@@ -150,15 +151,15 @@ class TransactionHttp extends Http_1.Http {
      * @returns Observable<number>
      */
     getTransactionEffectiveFee(transactionId) {
-        return rxjs_1.from(this.transactionRoutesApi.getTransaction(transactionId)).pipe(operators_1.mergeMap((transactionDTO) => {
+        return rxjs_1.from(this.transactionRoutesApi.getTransaction(transactionId)).pipe(operators_1.mergeMap((response) => {
             // parse transaction to take advantage of `size` getter overload
-            const transaction = CreateTransactionFromDTO_1.CreateTransactionFromDTO(transactionDTO);
+            const transaction = CreateTransactionFromDTO_1.CreateTransactionFromDTO(response.body);
             const uintHeight = transaction.transactionInfo.height;
             // now read block details
-            return rxjs_1.from(this.blockRoutesApi.getBlockByHeight(uintHeight.compact())).pipe(operators_1.map((blockDTO) => {
+            return rxjs_1.from(this.blockRoutesApi.getBlockByHeight(uintHeight.compact())).pipe(operators_1.map(response => {
                 // @see https://nemtech.github.io/concepts/transaction.html#fees
                 // effective_fee = feeMultiplier x transaction::size
-                return blockDTO.block.feeMultiplier * transaction.size;
+                return response.body.block.feeMultiplier * transaction.size;
             }));
         }), operators_1.catchError((err) => {
             return rxjs_1.throwError(err);

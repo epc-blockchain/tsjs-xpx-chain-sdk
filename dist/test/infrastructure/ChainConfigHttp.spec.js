@@ -18,7 +18,7 @@ describe('ChainConfigHttp', () => {
             }
         };
         beforeEach(() => {
-            sandbox.on(client.configRoutesApi, 'getConfig', (number) => Promise.resolve(dto));
+            sandbox.on(client.configRoutesApi, 'getConfig', (number) => Promise.resolve({ body: dto }));
         });
         afterEach(() => {
             sandbox.restore();

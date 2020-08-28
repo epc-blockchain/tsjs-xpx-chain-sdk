@@ -54,7 +54,8 @@ class NamespaceHttp extends Http_1.Http {
      * @returns Observable<NamespaceInfo>
      */
     getNamespace(namespaceId) {
-        return this.getNetworkTypeObservable().pipe(operators_1.mergeMap((networkType) => rxjs_1.from(this.namespaceRoutesApi.getNamespace(namespaceId.toHex())).pipe(operators_1.map((namespaceInfoDTO) => {
+        return this.getNetworkTypeObservable().pipe(operators_1.mergeMap((networkType) => rxjs_1.from(this.namespaceRoutesApi.getNamespace(namespaceId.toHex())).pipe(operators_1.map(response => {
+            const namespaceInfoDTO = response.body;
             return new NamespaceInfo_1.NamespaceInfo(namespaceInfoDTO.meta.active, namespaceInfoDTO.meta.index, namespaceInfoDTO.meta.id, namespaceInfoDTO.namespace.type, namespaceInfoDTO.namespace.depth, this.extractLevels(namespaceInfoDTO.namespace), new NamespaceId_1.NamespaceId(namespaceInfoDTO.namespace.parentId), PublicAccount_1.PublicAccount.createFromPublicKey(namespaceInfoDTO.namespace.owner, networkType), new UInt64_1.UInt64(namespaceInfoDTO.namespace.startHeight), new UInt64_1.UInt64(namespaceInfoDTO.namespace.endHeight), this.extractAlias(namespaceInfoDTO.namespace));
         }))));
     }
@@ -65,8 +66,8 @@ class NamespaceHttp extends Http_1.Http {
      * @returns Observable<NamespaceInfo[]>
      */
     getNamespacesFromAccount(address, queryParams) {
-        return this.getNetworkTypeObservable().pipe(operators_1.mergeMap((networkType) => rxjs_1.from(this.namespaceRoutesApi.getNamespacesFromAccount(address.plain(), this.queryParams(queryParams).pageSize, this.queryParams(queryParams).id, this.queryParams(queryParams).order)).pipe(operators_1.map((namespaceInfosDTO) => {
-            return namespaceInfosDTO.map((namespaceInfoDTO) => {
+        return this.getNetworkTypeObservable().pipe(operators_1.mergeMap((networkType) => rxjs_1.from(this.namespaceRoutesApi.getNamespacesFromAccount(address.plain(), this.queryParams(queryParams).pageSize, this.queryParams(queryParams).id, this.queryParams(queryParams).order)).pipe(operators_1.map(response => {
+            return response.body.map((namespaceInfoDTO) => {
                 return new NamespaceInfo_1.NamespaceInfo(namespaceInfoDTO.meta.active, namespaceInfoDTO.meta.index, namespaceInfoDTO.meta.id, namespaceInfoDTO.namespace.type, namespaceInfoDTO.namespace.depth, this.extractLevels(namespaceInfoDTO.namespace), new NamespaceId_1.NamespaceId(namespaceInfoDTO.namespace.parentId), PublicAccount_1.PublicAccount.createFromPublicKey(namespaceInfoDTO.namespace.owner, networkType), new UInt64_1.UInt64(namespaceInfoDTO.namespace.startHeight), new UInt64_1.UInt64(namespaceInfoDTO.namespace.endHeight), this.extractAlias(namespaceInfoDTO.namespace));
             });
         }))));
@@ -81,8 +82,8 @@ class NamespaceHttp extends Http_1.Http {
         const publicKeysBody = {
             addresses: addresses.map((address) => address.plain()),
         };
-        return this.getNetworkTypeObservable().pipe(operators_1.mergeMap((networkType) => rxjs_1.from(this.namespaceRoutesApi.getNamespacesFromAccounts(publicKeysBody, this.queryParams(queryParams).pageSize, this.queryParams(queryParams).id, this.queryParams(queryParams).order)).pipe(operators_1.map((namespaceInfosDTO) => {
-            return namespaceInfosDTO.map((namespaceInfoDTO) => {
+        return this.getNetworkTypeObservable().pipe(operators_1.mergeMap((networkType) => rxjs_1.from(this.namespaceRoutesApi.getNamespacesFromAccounts(publicKeysBody, this.queryParams(queryParams).pageSize, this.queryParams(queryParams).id, this.queryParams(queryParams).order)).pipe(operators_1.map(response => {
+            return response.body.map((namespaceInfoDTO) => {
                 return new NamespaceInfo_1.NamespaceInfo(namespaceInfoDTO.meta.active, namespaceInfoDTO.meta.index, namespaceInfoDTO.meta.id, namespaceInfoDTO.namespace.type, namespaceInfoDTO.namespace.depth, this.extractLevels(namespaceInfoDTO.namespace), new NamespaceId_1.NamespaceId(namespaceInfoDTO.namespace.parentId), PublicAccount_1.PublicAccount.createFromPublicKey(namespaceInfoDTO.namespace.owner, networkType), new UInt64_1.UInt64(namespaceInfoDTO.namespace.startHeight), new UInt64_1.UInt64(namespaceInfoDTO.namespace.endHeight), this.extractAlias(namespaceInfoDTO.namespace));
             });
         }))));
@@ -96,8 +97,8 @@ class NamespaceHttp extends Http_1.Http {
         const namespaceIdsBody = {
             namespaceIds: namespaceIds.map((id) => id.toHex()),
         };
-        return rxjs_1.from(this.namespaceRoutesApi.getNamespacesNames(namespaceIdsBody)).pipe(operators_1.map((namespaceNamesDTO) => {
-            return namespaceNamesDTO.map((namespaceNameDTO) => {
+        return rxjs_1.from(this.namespaceRoutesApi.getNamespacesNames(namespaceIdsBody)).pipe(operators_1.map(response => {
+            return response.body.map((namespaceNameDTO) => {
                 return new NamespaceName_1.NamespaceName(new NamespaceId_1.NamespaceId(namespaceNameDTO.namespaceId), namespaceNameDTO.name);
             });
         }));
@@ -108,13 +109,14 @@ class NamespaceHttp extends Http_1.Http {
      * @returns Observable<MosaicId | null>
      */
     getLinkedMosaicId(namespaceId) {
-        return rxjs_1.from(this.namespaceRoutesApi.getNamespace(namespaceId.toHex())).pipe(operators_1.map((namespaceInfoDTO) => {
+        return rxjs_1.from(this.namespaceRoutesApi.getNamespace(namespaceId.toHex())).pipe(operators_1.map(response => {
+            const namespaceInfoDTO = response.body;
             if (namespaceInfoDTO.namespace === undefined) {
                 // forward js-xpx-chain-rest error
                 throw namespaceInfoDTO;
             }
-            if (namespaceInfoDTO.namespace.alias.type === AliasType_1.AliasType.None
-                || namespaceInfoDTO.namespace.alias.type !== AliasType_1.AliasType.Mosaic
+            if (namespaceInfoDTO.namespace.alias.type.valueOf() === AliasType_1.AliasType.None
+                || namespaceInfoDTO.namespace.alias.type.valueOf() !== AliasType_1.AliasType.Mosaic
                 || !namespaceInfoDTO.namespace.alias.mosaicId) {
                 throw new Error('No mosaicId is linked to namespace \'' + namespaceInfoDTO.namespace.level0 + '\'');
             }
@@ -127,13 +129,14 @@ class NamespaceHttp extends Http_1.Http {
      * @returns Observable<Address>
      */
     getLinkedAddress(namespaceId) {
-        return rxjs_1.from(this.namespaceRoutesApi.getNamespace(namespaceId.toHex())).pipe(operators_1.map((namespaceInfoDTO) => {
+        return rxjs_1.from(this.namespaceRoutesApi.getNamespace(namespaceId.toHex())).pipe(operators_1.map(response => {
+            const namespaceInfoDTO = response.body;
             if (namespaceInfoDTO.namespace === undefined) {
                 // forward js-xpx-chain-rest error
                 throw namespaceInfoDTO;
             }
-            if (namespaceInfoDTO.namespace.alias.type === AliasType_1.AliasType.None
-                || namespaceInfoDTO.namespace.alias.type !== AliasType_1.AliasType.Address
+            if (namespaceInfoDTO.namespace.alias.type.valueOf() === AliasType_1.AliasType.None
+                || namespaceInfoDTO.namespace.alias.type.valueOf() !== AliasType_1.AliasType.Address
                 || !namespaceInfoDTO.namespace.alias.address) {
                 throw new Error('No address is linked to namespace \'' + namespaceInfoDTO.namespace.level0 + '\'');
             }

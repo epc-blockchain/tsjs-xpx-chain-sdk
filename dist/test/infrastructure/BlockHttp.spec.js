@@ -15,7 +15,7 @@ const address = publicAccount.address;
 describe('BlockHttp', () => {
     describe('getBlockTransactions', () => {
         beforeEach(() => {
-            sandbox.on(client.blockRoutesApi, 'getBlockTransactions', (number) => Promise.resolve(['api called']));
+            sandbox.on(client.blockRoutesApi, 'getBlockTransactions', (number) => Promise.resolve({ body: ['api called'] }));
             sandbox.on(createFromDto, 'CreateTransactionFromDTO', (dto) => dto === 'api called' ? 'deserialization called' : 'not ok');
         });
         afterEach(() => {

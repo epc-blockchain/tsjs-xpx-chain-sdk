@@ -43,10 +43,12 @@ __export(require("./blockchain/MerkleProofInfoPayload"));
 __export(require("./blockchain/NetworkType"));
 // Config
 __export(require("./config/ChainConfig"));
-// Contract
-__export(require("./contract/Contract"));
 // Diagnostic
 __export(require("./diagnostic/ServerInfo"));
+// Exchange
+__export(require("./exchange/AccountExchanges"));
+__export(require("./exchange/MosaicExchange"));
+__export(require("./exchange/OfferInfo"));
 // Metadata
 __export(require("./metadata/AddressMetadata"));
 __export(require("./metadata/Field"));
@@ -96,6 +98,8 @@ __export(require("./receipt/ResolutionStatement"));
 __export(require("./receipt/ResolutionType"));
 __export(require("./receipt/Statement"));
 __export(require("./receipt/TransactionStatement"));
+// Richlist
+__export(require("./richlist/RichlistEntry"));
 // Transaction
 __export(require("./transaction/AccountAddressRestrictionModificationTransaction"));
 __export(require("./transaction/AccountLinkTransaction"));
@@ -126,7 +130,6 @@ __export(require("./transaction/LinkAction"));
 __export(require("./transaction/LockFundsTransaction"));
 __export(require("./transaction/Message"));
 __export(require("./transaction/MessageType"));
-__export(require("./transaction/ModifyContractTransaction"));
 __export(require("./transaction/ModifyMetadataTransaction"));
 __export(require("./transaction/ModifyMultisigAccountTransaction"));
 __export(require("./transaction/MosaicAliasTransaction"));

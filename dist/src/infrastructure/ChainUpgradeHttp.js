@@ -28,8 +28,8 @@ class ChainUpgradeHttp extends Http_1.Http {
      * @returns Observable<ChainConfig>
      */
     getChainUpgrade(height) {
-        return rxjs_1.from(this.upgradeRoutesApi.getUpgrade(height)).pipe(operators_1.map((BlockchainUpgradeDTO) => {
-            return model_1.ChainUpgrade.createFromDTO(BlockchainUpgradeDTO.blockchainUpgrade);
+        return rxjs_1.from(this.upgradeRoutesApi.getUpgrade(height)).pipe(operators_1.map(response => {
+            return model_1.ChainUpgrade.createFromDTO(response.body.blockchainUpgrade);
         }));
     }
 }

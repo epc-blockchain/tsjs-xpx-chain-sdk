@@ -28,8 +28,8 @@ class ChainConfigHttp extends Http_1.Http {
      * @returns Observable<ChainConfig>
      */
     getChainConfig(height) {
-        return rxjs_1.from(this.configRoutesApi.getConfig(height)).pipe(operators_1.map((NetworkConfigDTO) => {
-            return model_1.ChainConfig.createFromDTO(NetworkConfigDTO.networkConfig);
+        return rxjs_1.from(this.configRoutesApi.getConfig(height)).pipe(operators_1.map(response => {
+            return model_1.ChainConfig.createFromDTO(response.body.networkConfig);
         }));
     }
 }

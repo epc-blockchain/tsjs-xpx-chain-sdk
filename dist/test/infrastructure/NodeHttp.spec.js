@@ -24,7 +24,7 @@ describe('NodeHttp', () => {
             friendlyName: 'some friendly name',
         };
         beforeEach(() => {
-            sandbox.on(client.nodeRoutesApi, 'getNodeInfo', () => Promise.resolve(dto));
+            sandbox.on(client.nodeRoutesApi, 'getNodeInfo', () => Promise.resolve({ body: dto }));
         });
         afterEach(() => {
             sandbox.restore();
@@ -44,7 +44,7 @@ describe('NodeHttp', () => {
             }
         };
         beforeEach(() => {
-            sandbox.on(client.nodeRoutesApi, 'getNodeTime', () => Promise.resolve(dto));
+            sandbox.on(client.nodeRoutesApi, 'getNodeTime', () => Promise.resolve({ body: dto }));
         });
         afterEach(() => {
             sandbox.restore();

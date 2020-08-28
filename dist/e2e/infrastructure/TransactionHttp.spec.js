@@ -1037,7 +1037,7 @@ describe('TransactionHttp', () => {
         describe('AddExchangeOfferTransaction', () => {
             it('standalone', (done) => {
                 const offers = [
-                    new AddExchangeOffer_1.AddExchangeOffer(conf_spec_1.ConfTestingMosaicId, model_1.UInt64.fromUint(10000000), model_1.UInt64.fromUint(10000000), ExchangeOfferType_1.ExchangeOfferType.SELL_OFFER, model_1.UInt64.fromUint(1000))
+                    new AddExchangeOffer_1.AddExchangeOffer(conf_spec_1.ConfTestingMosaicId, model_1.UInt64.fromUint(10000000), model_1.UInt64.fromUint(10000000), ExchangeOfferType_1.ExchangeOfferType.SELL_OFFER, model_1.UInt64.fromUint(10000))
                 ];
                 const addExchangeOfferTransaction = factory.addExchangeOffer()
                     .offers(offers)
@@ -1049,7 +1049,7 @@ describe('TransactionHttp', () => {
             });
             it('aggregate', (done) => {
                 const offers = [
-                    new AddExchangeOffer_1.AddExchangeOffer(conf_spec_1.ConfTestingMosaicId, model_1.UInt64.fromUint(10000000), model_1.UInt64.fromUint(10000000), ExchangeOfferType_1.ExchangeOfferType.BUY_OFFER, model_1.UInt64.fromUint(1000))
+                    new AddExchangeOffer_1.AddExchangeOffer(conf_spec_1.ConfTestingMosaicId, model_1.UInt64.fromUint(10000000), model_1.UInt64.fromUint(10000000), ExchangeOfferType_1.ExchangeOfferType.BUY_OFFER, model_1.UInt64.fromUint(10000))
                 ];
                 const addExchangeOfferTransaction = factory.addExchangeOffer()
                     .offers(offers)

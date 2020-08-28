@@ -114,11 +114,6 @@ TransactionVersion.LINK_ACCOUNT = 2;
  */
 TransactionVersion.MODIFY_METADATA = 1;
 /**
- * Modify contract transaction version
- * @type {number}
- */
-TransactionVersion.MODIFY_CONTRACT = 3;
-/**
  * Chain configuration transaction version
  * @type {number}
  */
@@ -132,7 +127,7 @@ TransactionVersion.CHAIN_UPGRADE = 1;
  * Add exchange transaction version
  * @type {number}
  */
-TransactionVersion.ADD_EXCHANGE_OFFER = 1;
+TransactionVersion.ADD_EXCHANGE_OFFER = 2;
 /**
  * Exchange transaction version
  * @type {number}

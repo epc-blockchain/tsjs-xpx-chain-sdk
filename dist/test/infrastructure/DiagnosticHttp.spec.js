@@ -15,7 +15,7 @@ describe('DiagnosticHttp', () => {
             numTransactions: 999
         };
         beforeEach(() => {
-            sandbox.on(client.diagnosticRoutesApi, 'getDiagnosticStorage', () => Promise.resolve(dto));
+            sandbox.on(client.diagnosticRoutesApi, 'getDiagnosticStorage', () => Promise.resolve({ body: dto }));
         });
         afterEach(() => {
             sandbox.restore();
@@ -37,7 +37,7 @@ describe('DiagnosticHttp', () => {
             }
         };
         beforeEach(() => {
-            sandbox.on(client.diagnosticRoutesApi, 'getServerInfo', () => Promise.resolve(dto));
+            sandbox.on(client.diagnosticRoutesApi, 'getServerInfo', () => Promise.resolve({ body: dto }));
         });
         afterEach(() => {
             sandbox.restore();

@@ -355,34 +355,6 @@ describe('TransactionMapping - createFromPayload', () => {
         chai_1.expect(transaction.upgradePeriod.toHex()).to.be.equal('0123456789ABCDEF');
         chai_1.expect(transaction.newBlockchainVersion.toHex()).to.be.equal('FEDCBA9876543210');
     });
-    it('should create ModifyContractTransaction', () => {
-        const hash = js_sha3_1.sha3_256.create().update('something').hex().toUpperCase();
-        const executorPublicKey = '1'.repeat(63) + 'A';
-        const verifierPublicKey1 = '2'.repeat(63) + 'B';
-        const verifierPublicKey2 = '3'.repeat(63) + 'C';
-        const customers = [];
-        const executors = [
-            new MultisigCosignatoryModification_1.MultisigCosignatoryModification(MultisigCosignatoryModificationType_1.MultisigCosignatoryModificationType.Add, PublicAccount_1.PublicAccount.createFromPublicKey(executorPublicKey, NetworkType_1.NetworkType.MIJIN_TEST))
-        ];
-        const verifiers = [
-            new MultisigCosignatoryModification_1.MultisigCosignatoryModification(MultisigCosignatoryModificationType_1.MultisigCosignatoryModificationType.Remove, PublicAccount_1.PublicAccount.createFromPublicKey(verifierPublicKey1, NetworkType_1.NetworkType.MIJIN_TEST)),
-            new MultisigCosignatoryModification_1.MultisigCosignatoryModification(MultisigCosignatoryModificationType_1.MultisigCosignatoryModificationType.Add, PublicAccount_1.PublicAccount.createFromPublicKey(verifierPublicKey2, NetworkType_1.NetworkType.MIJIN_TEST))
-        ];
-        const modifyContractTransaction = model_1.ModifyContractTransaction.create(NetworkType_1.NetworkType.MIJIN_TEST, Deadline_1.Deadline.create(), UInt64_1.UInt64.fromHex('0123456789ABCDEF'), hash, customers, executors, verifiers);
-        const signedTransaction = modifyContractTransaction.signWith(account, generationHash);
-        const transaction = TransactionMapping_1.TransactionMapping.createFromPayload(signedTransaction.payload);
-        chai_1.expect(transaction.durationDelta.toHex()).to.be.equal('0123456789ABCDEF');
-        chai_1.expect(transaction.hash).to.be.equal(hash);
-        chai_1.expect(transaction.customers.length).to.be.equal(0);
-        chai_1.expect(transaction.executors.length).to.be.equal(1);
-        chai_1.expect(transaction.executors[0].type).to.be.equal(MultisigCosignatoryModificationType_1.MultisigCosignatoryModificationType.Add);
-        chai_1.expect(transaction.executors[0].cosignatoryPublicAccount.publicKey).to.be.equal(executorPublicKey);
-        chai_1.expect(transaction.verifiers.length).to.be.equal(2);
-        chai_1.expect(transaction.verifiers[0].type).to.be.equal(MultisigCosignatoryModificationType_1.MultisigCosignatoryModificationType.Remove);
-        chai_1.expect(transaction.verifiers[0].cosignatoryPublicAccount.publicKey).to.be.equal(verifierPublicKey1);
-        chai_1.expect(transaction.verifiers[1].type).to.be.equal(MultisigCosignatoryModificationType_1.MultisigCosignatoryModificationType.Add);
-        chai_1.expect(transaction.verifiers[1].cosignatoryPublicAccount.publicKey).to.be.equal(verifierPublicKey2);
-    });
     it('should create AddExchangeOfferTransaction', () => {
         const addExchangeOfferTransaction = AddExchangeOfferTransaction_1.AddExchangeOfferTransaction.create(Deadline_1.Deadline.create(), [
             new AddExchangeOffer_1.AddExchangeOffer(new MosaicId_1.MosaicId('1234567890ABCDEF'), UInt64_1.UInt64.fromUint(12345678), UInt64_1.UInt64.fromUint(23456789), ExchangeOfferType_1.ExchangeOfferType.SELL_OFFER, UInt64_1.UInt64.fromUint(34567890)),

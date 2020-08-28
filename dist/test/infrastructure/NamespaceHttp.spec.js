@@ -38,7 +38,7 @@ describe('NamespaceHttp', () => {
             }
         };
         beforeEach(() => {
-            sandbox.on(client.namespaceRoutesApi, 'getNamespace', () => Promise.resolve(dto));
+            sandbox.on(client.namespaceRoutesApi, 'getNamespace', () => Promise.resolve({ body: dto }));
             sandbox.on(client, 'getNetworkTypeObservable', () => rxjs_1.of(model_1.NetworkType.MIJIN_TEST));
         });
         afterEach(() => {
@@ -89,7 +89,7 @@ describe('NamespaceHttp', () => {
             }
         };
         beforeEach(() => {
-            sandbox.on(client.namespaceRoutesApi, 'getNamespacesFromAccount', () => Promise.resolve([dto]));
+            sandbox.on(client.namespaceRoutesApi, 'getNamespacesFromAccount', () => Promise.resolve({ body: [dto] }));
             sandbox.on(client, 'getNetworkTypeObservable', () => rxjs_1.of(model_1.NetworkType.MIJIN_TEST));
         });
         afterEach(() => {
@@ -144,7 +144,7 @@ describe('NamespaceHttp', () => {
             }
         };
         beforeEach(() => {
-            sandbox.on(client.namespaceRoutesApi, 'getNamespacesFromAccounts', () => Promise.resolve([dto]));
+            sandbox.on(client.namespaceRoutesApi, 'getNamespacesFromAccounts', () => Promise.resolve({ body: [dto] }));
             sandbox.on(client, 'getNetworkTypeObservable', () => rxjs_1.of(model_1.NetworkType.MIJIN_TEST));
         });
         afterEach(() => {
@@ -181,7 +181,7 @@ describe('NamespaceHttp', () => {
             name: 'some name'
         };
         beforeEach(() => {
-            sandbox.on(client.namespaceRoutesApi, 'getNamespacesNames', () => Promise.resolve([dto, dto]));
+            sandbox.on(client.namespaceRoutesApi, 'getNamespacesNames', () => Promise.resolve({ body: [dto, dto] }));
         });
         afterEach(() => {
             sandbox.restore();
@@ -222,7 +222,7 @@ describe('NamespaceHttp', () => {
             }
         };
         beforeEach(() => {
-            sandbox.on(client.namespaceRoutesApi, 'getNamespace', () => Promise.resolve(dto));
+            sandbox.on(client.namespaceRoutesApi, 'getNamespace', () => Promise.resolve({ body: dto }));
             sandbox.on(client, 'getNetworkTypeObservable', () => rxjs_1.of(model_1.NetworkType.MIJIN_TEST));
         });
         afterEach(() => {
@@ -260,7 +260,7 @@ describe('NamespaceHttp', () => {
             }
         };
         beforeEach(() => {
-            sandbox.on(client.namespaceRoutesApi, 'getNamespace', () => Promise.resolve(dto));
+            sandbox.on(client.namespaceRoutesApi, 'getNamespace', () => Promise.resolve({ body: dto }));
             sandbox.on(client, 'getNetworkTypeObservable', () => rxjs_1.of(model_1.NetworkType.MIJIN_TEST));
         });
         afterEach(() => {
@@ -299,7 +299,7 @@ describe('NamespaceHttp', () => {
             }
         };
         beforeEach(() => {
-            sandbox.on(client.namespaceRoutesApi, 'getNamespace', () => Promise.resolve(dto));
+            sandbox.on(client.namespaceRoutesApi, 'getNamespace', () => Promise.resolve({ body: dto }));
             sandbox.on(client, 'getNetworkTypeObservable', () => rxjs_1.of(model_1.NetworkType.MIJIN_TEST));
         });
         afterEach(() => {
@@ -337,7 +337,7 @@ describe('NamespaceHttp', () => {
             }
         };
         beforeEach(() => {
-            sandbox.on(client.namespaceRoutesApi, 'getNamespace', () => Promise.resolve(dto));
+            sandbox.on(client.namespaceRoutesApi, 'getNamespace', () => Promise.resolve({ body: dto }));
             sandbox.on(client, 'getNetworkTypeObservable', () => rxjs_1.of(model_1.NetworkType.MIJIN_TEST));
         });
         afterEach(() => {

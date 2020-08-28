@@ -27,20 +27,20 @@ class DtoMapping {
      * @param {object} dataJson The account restriction json object.
      * @returns {module: model/Account/AccountRestrictionsInfo} The AccountRestrictionsInfo class.
      */
-    static extractAccountRestrictionFromDto(accountRestrictions) {
-        return new AccountRestrictionsInfo_1.AccountRestrictionsInfo(accountRestrictions.meta, new AccountRestrictions_1.AccountRestrictions(Address_1.Address.createFromEncoded(accountRestrictions.accountRestrictions.address), accountRestrictions.accountRestrictions.restrictions.map((prop) => {
-            switch (prop.restrictionType) {
+    static extractAccountRestrictionFromDto(accountProperties) {
+        return new AccountRestrictionsInfo_1.AccountRestrictionsInfo(accountProperties.meta, new AccountRestrictions_1.AccountRestrictions(Address_1.Address.createFromEncoded(accountProperties.accountProperties.address), accountProperties.accountProperties.properties.map((prop) => {
+            switch (prop.propertyType) {
                 case RestrictionType_1.RestrictionType.AllowAddress:
                 case RestrictionType_1.RestrictionType.BlockAddress:
-                    return new AccountRestriction_1.AccountRestriction(prop.restrictionType, prop.values.map((value) => Address_1.Address.createFromEncoded(value)));
+                    return new AccountRestriction_1.AccountRestriction(prop.propertyType, prop.values.map((value) => Address_1.Address.createFromEncoded(value)));
                 case RestrictionType_1.RestrictionType.AllowMosaic:
                 case RestrictionType_1.RestrictionType.BlockMosaic:
-                    return new AccountRestriction_1.AccountRestriction(prop.restrictionType, prop.values.map((value) => new MosaicId_1.MosaicId(value)));
+                    return new AccountRestriction_1.AccountRestriction(prop.propertyType, prop.values.map((value) => new MosaicId_1.MosaicId(value)));
                 case RestrictionType_1.RestrictionType.AllowTransaction:
                 case RestrictionType_1.RestrictionType.BlockTransaction:
-                    return new AccountRestriction_1.AccountRestriction(prop.restrictionType, prop.values);
+                    return new AccountRestriction_1.AccountRestriction(prop.propertyType, prop.values);
                 default:
-                    throw new Error(`Invalid restriction type: ${prop.restrictionType}`);
+                    throw new Error(`Invalid restriction type: ${prop.propertyType}`);
             }
         })));
     }

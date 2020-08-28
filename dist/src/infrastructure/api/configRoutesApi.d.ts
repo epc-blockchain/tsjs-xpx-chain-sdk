@@ -1,19 +1,24 @@
+/// <reference types="node" />
+import http = require('http');
 import { NetworkConfigDTO } from '../model/networkConfigDTO';
-import { Authentication } from '../model/models';
+import { Authentication, Interceptor } from '../model/models';
 export declare enum ConfigRoutesApiApiKeys {
 }
 export declare class ConfigRoutesApi {
     protected _basePath: string;
-    protected defaultHeaders: any;
+    protected _defaultHeaders: any;
     protected _useQuerystring: boolean;
     protected authentications: {
         'default': Authentication;
     };
+    protected interceptors: Interceptor[];
     constructor(basePath?: string);
     useQuerystring: boolean;
     basePath: string;
+    defaultHeaders: any;
     setDefaultAuthentication(auth: Authentication): void;
     setApiKey(key: ConfigRoutesApiApiKeys, value: string): void;
+    addInterceptor(interceptor: Interceptor): void;
     /**
      * Gets config of network at height.
      * @summary Get config of network
@@ -23,5 +28,8 @@ export declare class ConfigRoutesApi {
         headers: {
             [name: string]: string;
         };
-    }): Promise<NetworkConfigDTO>;
+    }): Promise<{
+        response: http.IncomingMessage;
+        body: NetworkConfigDTO;
+    }>;
 }

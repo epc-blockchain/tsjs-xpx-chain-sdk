@@ -64,7 +64,8 @@ class BlockHttp extends Http_1.Http {
      * @returns Observable<BlockInfo>
      */
     getBlockByHeight(height) {
-        return rxjs_1.from(this.blockRoutesApi.getBlockByHeight(height)).pipe(operators_1.map((blockDTO) => {
+        return rxjs_1.from(this.blockRoutesApi.getBlockByHeight(height)).pipe(operators_1.map(response => {
+            const blockDTO = response.body;
             const networkType = parseInt((blockDTO.block.version >>> 0).toString(16).substr(0, 2), 16); // ">>> 0" hack makes it effectively an Uint32
             return new BlockInfo_1.BlockInfo(blockDTO.meta.hash, blockDTO.meta.generationHash, new UInt64_1.UInt64(blockDTO.meta.totalFee), blockDTO.meta.numTransactions, blockDTO.block.signature, PublicAccount_1.PublicAccount.createFromPublicKey(blockDTO.block.signer, networkType), networkType, parseInt((blockDTO.block.version >>> 0).toString(16).substr(2, 2), 16), // Tx version
             blockDTO.block.type, new UInt64_1.UInt64(blockDTO.block.height), new UInt64_1.UInt64(blockDTO.block.timestamp), new UInt64_1.UInt64(blockDTO.block.difficulty), blockDTO.block.feeMultiplier, blockDTO.block.previousBlockHash, blockDTO.block.blockTransactionsHash, blockDTO.block.blockReceiptsHash, blockDTO.block.stateHash, CreateTransactionFromDTO_1.extractBeneficiary(blockDTO, networkType));
@@ -78,8 +79,8 @@ class BlockHttp extends Http_1.Http {
      */
     getBlockTransactions(height, queryParams) {
         return rxjs_1.from(this.blockRoutesApi.getBlockTransactions(height, this.queryParams(queryParams).pageSize, this.queryParams(queryParams).id, this.queryParams(queryParams).order))
-            .pipe(operators_1.map((transactionsDTO) => {
-            return transactionsDTO.map((transactionDTO) => {
+            .pipe(operators_1.map(response => {
+            return response.body.map((transactionDTO) => {
                 return CreateTransactionFromDTO_1.CreateTransactionFromDTO(transactionDTO);
             });
         }));
@@ -91,8 +92,8 @@ class BlockHttp extends Http_1.Http {
      * @returns Observable<BlockInfo[]>
      */
     getBlocksByHeightWithLimit(height, limit = LimitType.N_25) {
-        return rxjs_1.from(this.blockRoutesApi.getBlocksByHeightWithLimit(height, limit)).pipe(operators_1.map((blocksDTO) => {
-            return blocksDTO.map((blockDTO) => {
+        return rxjs_1.from(this.blockRoutesApi.getBlocksByHeightWithLimit(height, limit)).pipe(operators_1.map(response => {
+            return response.body.map((blockDTO) => {
                 const networkType = parseInt((blockDTO.block.version >>> 0).toString(16).substr(0, 2), 16);
                 return new BlockInfo_1.BlockInfo(blockDTO.meta.hash, blockDTO.meta.generationHash, new UInt64_1.UInt64(blockDTO.meta.totalFee), blockDTO.meta.numTransactions, blockDTO.block.signature, PublicAccount_1.PublicAccount.createFromPublicKey(blockDTO.block.signer, networkType), networkType, parseInt((blockDTO.block.version >>> 0).toString(16).substr(2, 2), 16), // Tx version
                 blockDTO.block.type, new UInt64_1.UInt64(blockDTO.block.height), new UInt64_1.UInt64(blockDTO.block.timestamp), new UInt64_1.UInt64(blockDTO.block.difficulty), blockDTO.block.feeMultiplier, blockDTO.block.previousBlockHash, blockDTO.block.blockTransactionsHash, blockDTO.block.blockReceiptsHash, blockDTO.block.stateHash, CreateTransactionFromDTO_1.extractBeneficiary(blockDTO, networkType));
@@ -110,7 +111,8 @@ class BlockHttp extends Http_1.Http {
      * @return Observable<MerkleProofInfo>
      */
     getMerkleReceipts(height, hash) {
-        return rxjs_1.from(this.blockRoutesApi.getMerkleReceipts(height, hash)).pipe(operators_1.map((merkleProofReceipt) => {
+        return rxjs_1.from(this.blockRoutesApi.getMerkleReceipts(height, hash)).pipe(operators_1.map(response => {
+            const merkleProofReceipt = response.body;
             return new MerkleProofInfo_1.MerkleProofInfo(new MerkleProofInfoPayload_1.MerkleProofInfoPayload(merkleProofReceipt.payload.merklePath.map((payload) => new MerklePathItem_1.MerklePathItem(payload.position, payload.hash))), merkleProofReceipt.type);
         }));
     }
@@ -125,7 +127,8 @@ class BlockHttp extends Http_1.Http {
      * @return Observable<MerkleProofInfo>
      */
     getMerkleTransaction(height, hash) {
-        return rxjs_1.from(this.blockRoutesApi.getMerkleReceipts(height, hash)).pipe(operators_1.map((merkleProofTransaction) => {
+        return rxjs_1.from(this.blockRoutesApi.getMerkleReceipts(height, hash)).pipe(operators_1.map(response => {
+            const merkleProofTransaction = response.body;
             return new MerkleProofInfo_1.MerkleProofInfo(new MerkleProofInfoPayload_1.MerkleProofInfoPayload(merkleProofTransaction.payload.merklePath.map((payload) => new MerklePathItem_1.MerklePathItem(payload.position, payload.hash))), merkleProofTransaction.type);
         }));
     }
@@ -136,8 +139,8 @@ class BlockHttp extends Http_1.Http {
      * @returns Observable<Statement>
      */
     getBlockReceipts(height) {
-        return this.getNetworkTypeObservable().pipe(operators_1.mergeMap((networkType) => rxjs_1.from(this.blockRoutesApi.getBlockReceipts(height)).pipe(operators_1.map((receiptDTO) => {
-            return CreateReceiptFromDTO_1.CreateStatementFromDTO(receiptDTO, networkType);
+        return this.getNetworkTypeObservable().pipe(operators_1.mergeMap((networkType) => rxjs_1.from(this.blockRoutesApi.getBlockReceipts(height)).pipe(operators_1.map(response => {
+            return CreateReceiptFromDTO_1.CreateStatementFromDTO(response.body, networkType);
         }))));
     }
 }

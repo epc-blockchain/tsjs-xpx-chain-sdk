@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const UInt64_1 = require("../UInt64");
 /**
  * The config structure stores a chain configuration as returned from http configRoutesApi.
- * The contract can be created on blockachain using ModifyContractTransaction
  */
 class ChainConfig {
     constructor(height, networkConfig, supportedEntityVersions) {

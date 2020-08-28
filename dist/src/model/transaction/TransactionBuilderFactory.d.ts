@@ -11,7 +11,6 @@ import { ChainConfigTransactionBuilder } from "./ChainConfigTransaction";
 import { ChainUpgradeTransactionBuilder } from "./ChainUpgradeTransaction";
 import { LockFundsTransactionBuilder } from "./LockFundsTransaction";
 import { HashLockTransactionBuilder } from "./HashLockTransaction";
-import { ModifyContractTransactionBuilder } from "./ModifyContractTransaction";
 import { ModifyAccountMetadataTransactionBuilder, ModifyMosaicMetadataTransactionBuilder, ModifyNamespaceMetadataTransactionBuilder } from "./ModifyMetadataTransaction";
 import { ModifyMultisigAccountTransactionBuilder } from "./ModifyMultisigAccountTransaction";
 import { MosaicAliasTransactionBuilder } from "./MosaicAliasTransaction";
@@ -49,7 +48,6 @@ export declare class TransactionBuilderFactory {
     chainUpgrade(): ChainUpgradeTransactionBuilder;
     lockFunds(): LockFundsTransactionBuilder;
     hashLock(): HashLockTransactionBuilder;
-    modifyContract(): ModifyContractTransactionBuilder;
     accountMetadata(): ModifyAccountMetadataTransactionBuilder;
     mosaicMetadata(): ModifyMosaicMetadataTransactionBuilder;
     namespaceMetadata(): ModifyNamespaceMetadataTransactionBuilder;

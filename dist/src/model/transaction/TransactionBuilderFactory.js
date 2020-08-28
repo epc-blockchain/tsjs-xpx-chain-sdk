@@ -16,7 +16,6 @@ const ChainConfigTransaction_1 = require("./ChainConfigTransaction");
 const ChainUpgradeTransaction_1 = require("./ChainUpgradeTransaction");
 const LockFundsTransaction_1 = require("./LockFundsTransaction");
 const HashLockTransaction_1 = require("./HashLockTransaction");
-const ModifyContractTransaction_1 = require("./ModifyContractTransaction");
 const ModifyMetadataTransaction_1 = require("./ModifyMetadataTransaction");
 const ModifyMultisigAccountTransaction_1 = require("./ModifyMultisigAccountTransaction");
 const MosaicAliasTransaction_1 = require("./MosaicAliasTransaction");
@@ -134,11 +133,6 @@ class TransactionBuilderFactory {
     }
     hashLock() {
         const builder = new HashLockTransaction_1.HashLockTransactionBuilder();
-        this.configureBuilder(builder);
-        return builder;
-    }
-    modifyContract() {
-        const builder = new ModifyContractTransaction_1.ModifyContractTransactionBuilder();
         this.configureBuilder(builder);
         return builder;
     }

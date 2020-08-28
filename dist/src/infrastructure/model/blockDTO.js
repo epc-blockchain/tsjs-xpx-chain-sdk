@@ -52,7 +52,7 @@ BlockDTO.attributeTypeMap = [
     {
         "name": "type",
         "baseName": "type",
-        "type": "number"
+        "type": "EntityTypeEnum"
     },
     {
         "name": "height",

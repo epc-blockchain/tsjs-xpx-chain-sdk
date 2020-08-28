@@ -5,6 +5,8 @@ import { MosaicNames } from '../model/mosaic/MosaicNames';
 import { Http } from './Http';
 import { MosaicRepository } from './MosaicRepository';
 import { NetworkHttp } from './NetworkHttp';
+import { RichlistEntry } from '../model/model';
+import { PageQueryParams } from './PageQueryParams';
 /**
  * Mosaic http repository.
  *
@@ -36,4 +38,11 @@ export declare class MosaicHttp extends Http implements MosaicRepository {
      * @return Observable<MosaicNames[]>
      */
     getMosaicsNames(mosaicIds: MosaicId[]): Observable<MosaicNames[]>;
+    /**
+     * Gets mosaic richlist
+     * @param mosaicId - Mosaic id
+     * @param queryParams - (Optional) Page query params
+     * @returns Observable<RichlistEntry[]>
+     */
+    getMosaicRichlist(mosaicId: MosaicId, queryParams?: PageQueryParams): Observable<RichlistEntry[]>;
 }

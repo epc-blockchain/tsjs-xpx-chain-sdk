@@ -5,5 +5,5 @@ export declare class DtoMapping {
      * @param {object} dataJson The account restriction json object.
      * @returns {module: model/Account/AccountRestrictionsInfo} The AccountRestrictionsInfo class.
      */
-    static extractAccountRestrictionFromDto(accountRestrictions: any): AccountRestrictionsInfo;
+    static extractAccountRestrictionFromDto(accountProperties: any): AccountRestrictionsInfo;
 }

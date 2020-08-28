@@ -116,10 +116,6 @@ TransactionType.MODIFY_MOSAIC_METADATA = 0x423D;
  */
 TransactionType.MODIFY_NAMESPACE_METADATA = 0x433D;
 /**
- * Modify contract transaction type
- */
-TransactionType.MODIFY_CONTRACT = 0x4157;
-/**
  * Upgrade chain transaction type
  */
 TransactionType.CHAIN_UPGRADE = 0x4158;

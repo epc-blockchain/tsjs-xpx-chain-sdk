@@ -34,7 +34,7 @@ describe('AccountHttp', () => {
             }
         };
         beforeEach(() => {
-            sandbox.on(client.accountRoutesApi, 'getAccountInfo', (tx) => Promise.resolve(dto));
+            sandbox.on(client.accountRoutesApi, 'getAccountInfo', (tx) => Promise.resolve({ body: dto }));
         });
         afterEach(() => {
             sandbox.restore();
@@ -71,7 +71,7 @@ describe('AccountHttp', () => {
             }
         };
         beforeEach(() => {
-            sandbox.on(client.accountRoutesApi, 'getAccountsInfo', (tx) => Promise.resolve([dto]));
+            sandbox.on(client.accountRoutesApi, 'getAccountsInfo', (tx) => Promise.resolve({ body: [dto] }));
         });
         afterEach(() => {
             sandbox.restore();
@@ -96,7 +96,7 @@ describe('AccountHttp', () => {
     });
     describe('getAccountRestrictions', () => {
         beforeEach(() => {
-            sandbox.on(client.accountRoutesApi, 'getAccountRestrictions', (tx) => Promise.resolve('api called'));
+            sandbox.on(client.accountRoutesApi, 'getAccountProperties', (tx) => Promise.resolve({ body: 'api called' }));
             sandbox.on(dtoMapping.DtoMapping, 'extractAccountRestrictionFromDto', (dto) => dto === 'api called' ? 'deserialization called' : 'not ok');
         });
         afterEach(() => {
@@ -111,7 +111,7 @@ describe('AccountHttp', () => {
     });
     describe('getAccountRestrictionsFromAccounts', () => {
         beforeEach(() => {
-            sandbox.on(client.accountRoutesApi, 'getAccountRestrictionsFromAccounts', (tx) => Promise.resolve(['api called']));
+            sandbox.on(client.accountRoutesApi, 'getAccountPropertiesFromAccounts', (tx) => Promise.resolve({ body: ['api called'] }));
             sandbox.on(dtoMapping.DtoMapping, 'extractAccountRestrictionFromDto', (dto) => dto === 'api called' ? 'deserialization called' : 'not ok');
         });
         afterEach(() => {
@@ -131,7 +131,7 @@ describe('AccountHttp', () => {
             names: ['some.name']
         };
         beforeEach(() => {
-            sandbox.on(client.accountRoutesApi, 'getAccountsNames', (tx) => Promise.resolve([dto]));
+            sandbox.on(client.accountRoutesApi, 'getAccountsNames', (tx) => Promise.resolve({ body: [dto] }));
         });
         afterEach(() => {
             sandbox.restore();
@@ -159,7 +159,7 @@ describe('AccountHttp', () => {
             }
         };
         beforeEach(() => {
-            sandbox.on(client.accountRoutesApi, 'getAccountMultisig', (tx) => Promise.resolve(dto));
+            sandbox.on(client.accountRoutesApi, 'getAccountMultisig', (tx) => Promise.resolve({ body: dto }));
             sandbox.on(client.networkHttp, 'getNetworkType', () => rxjs_1.of(model_1.NetworkType.MIJIN_TEST));
         });
         afterEach(() => {
@@ -192,7 +192,7 @@ describe('AccountHttp', () => {
                 }]
         };
         beforeEach(() => {
-            sandbox.on(client.accountRoutesApi, 'getAccountMultisigGraph', (tx) => Promise.resolve([dto]));
+            sandbox.on(client.accountRoutesApi, 'getAccountMultisigGraph', (tx) => Promise.resolve({ body: [dto] }));
             sandbox.on(client.networkHttp, 'getNetworkType', () => rxjs_1.of(model_1.NetworkType.MIJIN_TEST));
         });
         afterEach(() => {
@@ -218,7 +218,7 @@ describe('AccountHttp', () => {
     });
     describe('transactions', () => {
         beforeEach(() => {
-            sandbox.on(client.accountRoutesApi, 'transactions', (tx) => Promise.resolve(['api called']));
+            sandbox.on(client.accountRoutesApi, 'transactions', (tx) => Promise.resolve({ body: ['api called'] }));
             sandbox.on(createFromDto, 'CreateTransactionFromDTO', (dto) => dto === 'api called' ? 'deserialization called' : 'not ok');
         });
         afterEach(() => {
@@ -234,7 +234,7 @@ describe('AccountHttp', () => {
     });
     describe('incomingTransactions', () => {
         beforeEach(() => {
-            sandbox.on(client.accountRoutesApi, 'incomingTransactions', (tx) => Promise.resolve(['api called']));
+            sandbox.on(client.accountRoutesApi, 'incomingTransactions', (tx) => Promise.resolve({ body: ['api called'] }));
             sandbox.on(createFromDto, 'CreateTransactionFromDTO', (dto) => dto === 'api called' ? 'deserialization called' : 'not ok');
         });
         afterEach(() => {
@@ -250,7 +250,7 @@ describe('AccountHttp', () => {
     });
     describe('outgoingTransactions', () => {
         beforeEach(() => {
-            sandbox.on(client.accountRoutesApi, 'outgoingTransactions', (tx) => Promise.resolve(['api called']));
+            sandbox.on(client.accountRoutesApi, 'outgoingTransactions', (tx) => Promise.resolve({ body: ['api called'] }));
             sandbox.on(createFromDto, 'CreateTransactionFromDTO', (dto) => dto === 'api called' ? 'deserialization called' : 'not ok');
         });
         afterEach(() => {
@@ -266,7 +266,7 @@ describe('AccountHttp', () => {
     });
     describe('unconfirmedTransactions', () => {
         beforeEach(() => {
-            sandbox.on(client.accountRoutesApi, 'unconfirmedTransactions', (tx) => Promise.resolve(['api called']));
+            sandbox.on(client.accountRoutesApi, 'unconfirmedTransactions', (tx) => Promise.resolve({ body: ['api called'] }));
             sandbox.on(createFromDto, 'CreateTransactionFromDTO', (dto) => dto === 'api called' ? 'deserialization called' : 'not ok');
         });
         afterEach(() => {
@@ -282,7 +282,7 @@ describe('AccountHttp', () => {
     });
     describe('aggregateBondedTransactions', () => {
         beforeEach(() => {
-            sandbox.on(client.accountRoutesApi, 'partialTransactions', (tx) => Promise.resolve(['api called']));
+            sandbox.on(client.accountRoutesApi, 'partialTransactions', (tx) => Promise.resolve({ body: ['api called'] }));
             sandbox.on(createFromDto, 'CreateTransactionFromDTO', (dto) => dto === 'api called' ? 'deserialization called' : 'not ok');
         });
         afterEach(() => {

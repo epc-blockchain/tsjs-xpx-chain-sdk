@@ -336,21 +336,6 @@ const CreateTransaction = (type, transactionData, networkType, deadline) => {
                 .upgradePeriod(UInt64_1.UInt64.fromHex(reverse(upgradePeriod)))
                 .newBlockchainVersion(UInt64_1.UInt64.fromHex(reverse(newBlockchainVersion)))
                 .build();
-        case TransactionType_1.TransactionType.MODIFY_CONTRACT:
-            const durationDelta = transactionData.substring(0, 16);
-            const hash = transactionData.substring(16, 80);
-            const numCustomers = extractNumberFromHex(transactionData.substring(80, 82));
-            const numExecutors = extractNumberFromHex(transactionData.substring(82, 84));
-            const numVerifiers = extractNumberFromHex(transactionData.substring(84, 86));
-            const allArray = transactionData.substring(86).match(/.{66}/g);
-            const modArray = allArray ? allArray.map(one => new MultisigCosignatoryModification_1.MultisigCosignatoryModification(extractNumberFromHex(one.substring(0, 2)) === 0 ? model_1.MultisigCosignatoryModificationType.Add : model_1.MultisigCosignatoryModificationType.Remove, PublicAccount_1.PublicAccount.createFromPublicKey(one.substring(2), networkType))) : [];
-            return factory.modifyContract()
-                .durationDelta(UInt64_1.UInt64.fromHex(reverse(durationDelta)))
-                .hash(hash)
-                .customers(modArray.slice(0, numCustomers))
-                .executors(modArray.slice(numCustomers, numCustomers + numExecutors))
-                .verifiers(modArray.slice(numCustomers + numExecutors))
-                .build();
         case TransactionType_1.TransactionType.ADD_EXCHANGE_OFFER:
             // const numOffers = extractNumberFromHex(transactionData.substring(0, 2));
             const addOffersArray = transactionData.substr(2).match(/.{66}/g) || [];

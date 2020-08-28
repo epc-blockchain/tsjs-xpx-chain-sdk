@@ -97,10 +97,6 @@ export declare class TransactionType {
      */
     static readonly MODIFY_NAMESPACE_METADATA = 17213;
     /**
-     * Modify contract transaction type
-     */
-    static readonly MODIFY_CONTRACT = 16727;
-    /**
      * Upgrade chain transaction type
      */
     static readonly CHAIN_UPGRADE = 16728;

@@ -40,8 +40,8 @@ class ChainHttp extends Http_1.Http {
      * @returns Observable<UInt64>
      */
     getBlockchainHeight() {
-        return rxjs_1.from(this.chainRoutesApi.getBlockchainHeight()).pipe(operators_1.map((heightDTO) => {
-            return new UInt64_1.UInt64(heightDTO.height);
+        return rxjs_1.from(this.chainRoutesApi.getBlockchainHeight()).pipe(operators_1.map(response => {
+            return new UInt64_1.UInt64(response.body.height);
         }));
     }
     /**
@@ -49,7 +49,8 @@ class ChainHttp extends Http_1.Http {
      * @returns Observable<BlockchainScore>
      */
     getBlockchainScore() {
-        return rxjs_1.from(this.chainRoutesApi.getBlockchainScore()).pipe(operators_1.map((blockchainScoreDTO) => {
+        return rxjs_1.from(this.chainRoutesApi.getBlockchainScore()).pipe(operators_1.map(response => {
+            const blockchainScoreDTO = response.body;
             return new BlockchainScore_1.BlockchainScore(new UInt64_1.UInt64(blockchainScoreDTO.scoreLow), new UInt64_1.UInt64(blockchainScoreDTO.scoreHigh));
         }));
     }

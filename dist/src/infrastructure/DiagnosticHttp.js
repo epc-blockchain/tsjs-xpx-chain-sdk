@@ -40,7 +40,8 @@ class DiagnosticHttp extends Http_1.Http {
      * @returns Observable<BlockchainStorageInfo>
      */
     getDiagnosticStorage() {
-        return rxjs_1.from(this.diagnosticRoutesApi.getDiagnosticStorage()).pipe(operators_1.map((blockchainStorageInfoDTO) => {
+        return rxjs_1.from(this.diagnosticRoutesApi.getDiagnosticStorage()).pipe(operators_1.map(response => {
+            const blockchainStorageInfoDTO = response.body;
             return new BlockchainStorageInfo_1.BlockchainStorageInfo(blockchainStorageInfoDTO.numBlocks, blockchainStorageInfoDTO.numTransactions, blockchainStorageInfoDTO.numAccounts);
         }));
     }
@@ -49,7 +50,8 @@ class DiagnosticHttp extends Http_1.Http {
      * @returns Observable<Server>
      */
     getServerInfo() {
-        return rxjs_1.from(this.diagnosticRoutesApi.getServerInfo()).pipe(operators_1.map((serverDTO) => {
+        return rxjs_1.from(this.diagnosticRoutesApi.getServerInfo()).pipe(operators_1.map(response => {
+            const serverDTO = response.body;
             return new ServerInfo_1.ServerInfo(serverDTO.serverInfo.restVersion, serverDTO.serverInfo.sdkVersion);
         }));
     }

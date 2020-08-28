@@ -29,6 +29,7 @@ const UInt64_1 = require("../model/UInt64");
 const api_1 = require("./api");
 const Http_1 = require("./Http");
 const NetworkHttp_1 = require("./NetworkHttp");
+const model_1 = require("../model/model");
 /**
  * Mosaic http repository.
  *
@@ -51,7 +52,8 @@ class MosaicHttp extends Http_1.Http {
      * @returns Observable<MosaicInfo>
      */
     getMosaic(mosaicId) {
-        return this.getNetworkTypeObservable().pipe(operators_1.mergeMap((networkType) => rxjs_1.from(this.mosaicRoutesApi.getMosaic(mosaicId.toHex())).pipe(operators_1.map((mosaicInfoDTO) => {
+        return this.getNetworkTypeObservable().pipe(operators_1.mergeMap((networkType) => rxjs_1.from(this.mosaicRoutesApi.getMosaic(mosaicId.toHex())).pipe(operators_1.map(response => {
+            const mosaicInfoDTO = response.body;
             let mosaicFlag;
             let divisibility;
             let duration;
@@ -76,8 +78,8 @@ class MosaicHttp extends Http_1.Http {
         const mosaicIdsBody = {
             mosaicIds: mosaicIds.map((id) => id.toHex()),
         };
-        return this.getNetworkTypeObservable().pipe(operators_1.mergeMap((networkType) => rxjs_1.from(this.mosaicRoutesApi.getMosaics(mosaicIdsBody)).pipe(operators_1.map((mosaicInfosDTO) => {
-            return mosaicInfosDTO.map((mosaicInfoDTO) => {
+        return this.getNetworkTypeObservable().pipe(operators_1.mergeMap((networkType) => rxjs_1.from(this.mosaicRoutesApi.getMosaics(mosaicIdsBody)).pipe(operators_1.map(response => {
+            return response.body.map((mosaicInfoDTO) => {
                 let mosaicFlag;
                 let divisibility;
                 let duration;
@@ -104,11 +106,26 @@ class MosaicHttp extends Http_1.Http {
         const mosaicIdsBody = {
             mosaicIds: mosaicIds.map((id) => id.toHex()),
         };
-        return rxjs_1.from(this.mosaicRoutesApi.getMosaicsNames(mosaicIdsBody)).pipe(operators_1.map((mosaics) => {
-            return mosaics.map((mosaic) => {
+        return rxjs_1.from(this.mosaicRoutesApi.getMosaicsNames(mosaicIdsBody)).pipe(operators_1.map(response => {
+            return response.body.map((mosaic) => {
                 return new MosaicNames_1.MosaicNames(new MosaicId_1.MosaicId(mosaic.mosaicId), mosaic.names.map((name) => {
                     return new NamespaceName_1.NamespaceName(new NamespaceId_1.NamespaceId(name), name);
                 }));
+            });
+        }));
+    }
+    /**
+     * Gets mosaic richlist
+     * @param mosaicId - Mosaic id
+     * @param queryParams - (Optional) Page query params
+     * @returns Observable<RichlistEntry[]>
+     */
+    getMosaicRichlist(mosaicId, queryParams) {
+        return rxjs_1.from(this.mosaicRoutesApi.getMosaicRichList(mosaicId.toHex(), this.pageQueryParams(queryParams).page, this.pageQueryParams(queryParams).pageSize)).pipe(operators_1.map(response => {
+            return response.body.map((richlistEntryDTO) => {
+                return model_1.RichlistEntry.create(model_1.Address.createFromEncoded(richlistEntryDTO.address), 
+                // TODO: check if route response actually have publicKey, FIXME in the .yaml then
+                richlistEntryDTO.publicKey ? richlistEntryDTO.publicKey : '0'.repeat(64), new UInt64_1.UInt64(richlistEntryDTO.amount));
             });
         }));
     }

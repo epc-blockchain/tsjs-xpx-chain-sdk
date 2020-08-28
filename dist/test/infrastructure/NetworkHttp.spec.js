@@ -17,7 +17,7 @@ describe('NetworkHttp', () => {
             name: 'unsupported'
         };
         beforeEach(() => {
-            sandbox.on(client.networkRoutesApi, 'getNetworkType', () => Promise.resolve(dto));
+            sandbox.on(client.networkRoutesApi, 'getNetworkType', () => Promise.resolve({ body: dto }));
         });
         afterEach(() => {
             sandbox.restore();
@@ -42,7 +42,9 @@ describe('NetworkHttp', () => {
             ['private', model_1.NetworkType.PRIVATE]
         ];
         const getDto = (idx) => Promise.resolve({
-            name: nameValue[idx][0]
+            body: {
+                name: nameValue[idx][0]
+            }
         });
         beforeEach(() => {
             sandbox.on(client.networkRoutesApi, 'getNetworkType', () => Promise.resolve(getDto(i)));
