@@ -51,7 +51,7 @@ export const EpccMosaicProperties = new KnownMosaicProperties(
 );
 
 export const StableCoinMosaicProperties = new KnownMosaicProperties(
-    new MosaicId("41ff162249ade073"),
+    new NamespaceId('besc.myr'),
     UInt64.fromUint(9000000000), // initial supply
     MosaicProperties.create({
         supplyMutable: false,

@@ -18,7 +18,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const NamespaceId_1 = require("../namespace/NamespaceId");
 const UInt64_1 = require("../UInt64");
 const Mosaic_1 = require("./Mosaic");
-const MosaicId_1 = require("./MosaicId");
 const MosaicProperties_1 = require("./MosaicProperties");
 class KnownMosaicProperties {
     constructor(ID, INITIAL_SUPPLY, MOSAIC_PROPERTIES) {
@@ -40,7 +39,7 @@ MosaicProperties_1.MosaicProperties.create({
     transferable: true,
     divisibility: 6
 }));
-exports.StableCoinMosaicProperties = new KnownMosaicProperties(new MosaicId_1.MosaicId("41ff162249ade073"), UInt64_1.UInt64.fromUint(9000000000), // initial supply
+exports.StableCoinMosaicProperties = new KnownMosaicProperties(new NamespaceId_1.NamespaceId('besc.myr'), UInt64_1.UInt64.fromUint(9000000000), // initial supply
 MosaicProperties_1.MosaicProperties.create({
     supplyMutable: false,
     transferable: true,
